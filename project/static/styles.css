@@ -1,0 +1,33 @@
+* {
+    font-family: Arial, sans-serif;
+}
+
+.titleText {
+    background-color: #37003c;
+    color: white;
+}
+
+.banner {
+    width: 100%;
+    object-fit: cover;
+    object-position: top; /* Set the object position to the top */
+    opacity: 1;
+}
+
+.buttonColour {
+    background-color: #37003c;
+    border-color: #37003c;
+}
+
+.list-group-item {
+    border-radius: 0;
+    border-color: #37003c;
+}
+.list-group-item:hover {
+/*     background-color: #507ca8; Change this to the desired background color */
+    background-color: #89428e;
+    color: white;
+}
+.list-group-item:active {
+    background-color: #89428e;
+}

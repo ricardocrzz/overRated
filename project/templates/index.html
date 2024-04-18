@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+Premier League
+{% endblock %}
+
+{% block body %}
+<div class="container text-center">
+    <img class="img-fluid banner" src="../static/plbanner.jpeg"
+        alt="Premier League Banner">
+    <div class="container mt-5">
+        <a href="/addPlayer"
+            class="btn btn-primary btn-lg mx-2 buttonColour">Add
+            Player</a>
+        <a href="/choosePlayers"
+            class="btn btn-primary btn-lg mx-2 buttonColour">Compare
+            Two Players</a>
+    </div>
+</div>
+{% endblock %}
