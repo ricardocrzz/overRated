@@ -1,0 +1,526 @@
+{% extends "base.html" %}
+
+{% block title %}
+Adding Player
+{% endblock %}
+
+{% block body %}
+<div class="m-5">
+    <h1>Add Player</h1>
+
+    <div class="form">
+
+        <!-- PLAYERINFO -->
+        <form method="post" action="/addPlayer" class="row g-3">
+
+            <div class="col-md-6">
+                <label for="teamId" class="form-label">Team:</label>
+                <input type="text" id="teamId" name="teamId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="shirtId" class="form-label">Shirt Number:</label>
+                <input type="text" id="shirtId" name="shirtId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" id="name" name="name"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="nation" class="form-label">Nation:</label>
+                <input type="text" id="nation" name="nation"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="mainPos" class="form-label">Type of Player:</label>
+                <input type="text" id="mainPos" name="mainPos"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="priPos" class="form-label">Position:</label>
+                <input type="text" id="priPos" name="priPos"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="age" class="form-label">Age:</label>
+                <input type="text" id="age" name="age"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary btn-lg mx-2 buttonColour"
+                    type="submit">Add Player</button>
+            </div>
+        </form>
+
+        <!-- PLAYERWAGES -->
+        <br>
+        <form method="post" action="/addWage" class="row g-3">
+            <div class="col-md-6">
+                <label for="teamId" class="form-label">Team:</label>
+                <input type="text" id="teamId" name="teamId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="shirtId" class="form-label">Shirt Number:</label>
+                <input type="text" id="shirtId" name="shirtId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="annual" class="form-label">Annual Wage:</label>
+                <input type="text" id="annual" name='annual'
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="transfer" class="form-label">Transfer Fee:</label>
+                <input type="text" id="transfer" name="transfer"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="joined" class="form-label">Year Joined:</label>
+                <input type="text" id="joined" name="joined"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary btn-lg mx-2 buttonColour"
+                    type="submit">Add Wage</button>
+            </div>
+        </form>
+
+        <!-- PLAYERSTATS -->
+        <br>
+        <form method="post" action="/addWage" class="row g-3">
+            <div class="col-md-6">
+                <label for="teamId" class="form-label">Team:</label>
+                <input type="text" id="teamId" name="teamId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="shirtId" class="form-label">Shirt Number:</label>
+                <input type="text" id="shirtId" name="shirtId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="apps" class="form-label">Appearances:</label>
+                <input type="text" id="apps" name="apps"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="fullGames" class="form-label">Full Games:</label>
+                <input type="text" id="fullGames" name="fullGames"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="goals" class="form-label">Goals:</label>
+                <input type="text" id="goals" name="goals"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="assists" class="form-label">Assists:</label>
+                <input type="text" id="assists" name="assists"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="fouls" class="form-label">Fouls:</label>
+                <input type="text" id="fouls" name="fouls"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="yellow" class="form-label">Yellow Cards:</label>
+                <input type="text" id="yellow" name="yellow"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="red" class="form-label">Red Cards:</label>
+                <input type="text" id="red" name="red"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary btn-lg mx-2 buttonColour"
+                    type="submit">Add Wage</button>
+            </div>
+        </form>
+
+        <!-- GKSTATS -->
+        <br>
+        <form method="post" action="/addWage" class="row g-3">
+            <div class="col-md-6">
+                <label for="teamId" class="form-label">Team:</label>
+                <input type="text" id="teamId" name="teamId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="shirtId" class="form-label">Shirt Number:</label>
+                <input type="text" id="shirtId" name="shirtId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="goalsAgainst" class="form-label">Goals
+                    Conceeded:</label>
+                <input type="text" id="goalsAgainst" name="goalsAgainst"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="shotsOnTargetConceeded" class="form-label">Shots On
+                    Target Conceeded:</label>
+                <input type="text" id="shotsOnTargetConceeded"
+                    name="shotsOnTargetConceeded"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="savePer" class="form-label">Save Percentage:</label>
+                <input type="text" id="savePer" name="savePer"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="cleanSheets" class="form-label">Clean
+                    Sheets:</label>
+                <input type="text" id="cleanSheets" name="cleanSheets"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="launchCompPer" class="form-label">Pass Launch
+                    Completion Percentage:</label>
+                <input type="text" id="launchCompPer" name="launchCompPer"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="goalsAgainstExpected" class="form-label">Expected
+                    Goals Against:</label>
+                <input type="text" id="goalsAgainstExpected"
+                    name="goalsAgainstExpected"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="goalsAgainstExpectedPer" class="form-label">Expected
+                    Goals Against Percentage:</label>
+                <input type="text" id="goalsAgainstExpectedPer"
+                    name="goalsAgainstExpectedPer"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="crossesStoppedPer" class="form-label">Crosses
+                    Stopped Percentage:</label>
+                <input type="text" id="crossesStoppedPer"
+                    name="crossesStoppedPer"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="sweeps" class="form-label">Sweeps:</label>
+                <input type="text" id="sweeps" name="sweeps"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="penaltiesSavedPer" class="form-label">Penalties
+                    Saved Percentage:</label>
+                <input type="text" id="penaltiesSavedPer"
+                    name="penaltiesSavedPer"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="errors" class="form-label">Errors:</label>
+                <input type="text" id="errors" name="errors"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary btn-lg mx-2 buttonColour"
+                    type="submit">Add Wage</button>
+            </div>
+        </form>
+
+        <!-- DFSTATS -->
+        <br>
+        <form method="post" action="/addWage" class="row g-3">
+            <div class="col-md-6">
+                <label for="teamId" class="form-label">Team:</label>
+                <input type="text" id="teamId" name="teamId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="shirtId" class="form-label">Shirt Number:</label>
+                <input type="text" id="shirtId" name="shirtId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="onGoalsAgainst" class="form-label">Goals Conceeded
+                    When On Field:</label>
+                <input type="text" id="onGoalsAgainst" name="onGoalsAgainst"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="tackles" class="form-label">Tackles:</label>
+                <input type="text" id="tackles" name="tackles"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="tacklesWon" class="form-label">Tackles Won:</label>
+                <input type="text" id="tacklesWon" name="tacklesWon"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="dribblesStoppedPer" class="form-label">Dribbles
+                    Stopped Percentage:</label>
+                <input type="text" id="dribblesStoppedPer"
+                    name="dribblesStoppedPer"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="blocks" class="form-label">Blocks:</label>
+                <input type="text" id="blocks" name="blocks"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="interceptions"
+                    class="form-label">Interceptions:</label>
+                <input type="text" id="interceptions" name="interceptions"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="clearances" class="form-label">Clearances:</label>
+                <input type="text" id="clearances" name="clearances"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="errorsToShot" class="form-label">Errors To
+                    Shot:</label>
+                <input type="text" id="errorsToShot" name="errorsToShot"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="carries" class="form-label">Carries:</label>
+                <input type="text" id="carries" name="carries"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="aerialDuelsWon" class="form-label">Aerial Duels
+                    Won:</label>
+                <input type="text" id="aerialDuelsWon" name="aerialDuelsWon"
+                    class="form-control" required>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary btn-lg mx-2 buttonColour"
+                    type="submit">Add Wage</button>
+            </div>
+        </form>
+
+        <!-- MFSTATS -->
+        <br>
+        <form method="post" action="/addWage" class="row g-3">
+            <div class="col-md-6">
+                <label for="teamId" class="form-label">Team:</label>
+                <input type="text" id="teamId" name="teamId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="shirtId" class="form-label">Shirt Number:</label>
+                <input type="text" id="shirtId" name="shirtId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="xG" class="form-label">Expected Goals:</label>
+                <input type="text" id="xG" name="xG"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="xA" class="form-label">Expected Assists:</label>
+                <input type="text" id="xA" name="xA"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="progressiveCarries" class="form-label">Progressive
+                    Carries:</label>
+                <input type="text" id="progressiveCarries"
+                    name="progressiveCarries"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="progressivePasses" class="form-label">Progressive
+                    Passes:</label>
+                <input type="text" id="progressivePasses"
+                    name="progressivePasses"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="shotsOnTargetPer" class="form-label">Shots On Target
+                    Percentage:</label>
+                <input type="text" id="shotsOnTargetPer" name="shotsOnTargetPer"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="passesAttemped" class="form-label">Passes
+                    Attemped:</label>
+                <input type="text" id="passesAttemped" name="passesAttemped"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="passesCompleted" class="form-label">Passes
+                    Completed:</label>
+                <input type="text" id="passesCompleted" name="passesCompleted"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="passesToShot" class="form-label">Passes Leading To
+                    Shot:</label>
+                <input type="text" id="passesToShot" name="passesToShot"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="crosses" class="form-label">Crosses:</label>
+                <input type="text" id="crosses" name="crosses"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="shotCreatingActions" class="form-label">Shot
+                    Creating Actions:</label>
+                <input type="text" id="shotCreatingActions"
+                    name="shotCreatingActions"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="dribblesStoppedPer" class="form-label">Dribbles
+                    Stopped Percentage:</label>
+                <input type="text" id="dribblesStoppedPer"
+                    name="dribblesStoppedPer"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="blocks" class="form-label">Blocks:</label>
+                <input type="text" id="blocks" name="blocks"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="interceptions"
+                    class="form-label">Interceptions:</label>
+                <input type="text" id="interceptions" name="interceptions"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="touches" class="form-label">Touches:</label>
+                <input type="text" id="touches" name="touches"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="takeOnsAtt" class="form-label">Take Ons
+                    Attempted:</label>
+                <input type="text" id="takeOnsAtt" name="takeOnsAtt"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="takeOnsSucc" class="form-label">Take Ons
+                    Successful:</label>
+                <input type="text" id="takeOnsSucc" name="takeOnsSucc"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="dispossesed" class="form-label">Dispossesed:</label>
+                <input type="text" id="dispossesed" name="dispossesed"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="aerialDuelsWon" class="form-label">Aerial Duels
+                    Won:</label>
+                <input type="text" id="aerialDuelsWon" name="aerialDuelsWon"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary btn-lg mx-2 buttonColour"
+                    type="submit">Add Wage</button>
+            </div>
+        </form>
+
+        <!-- FWSTATS -->
+        <br>
+        <form method="post" action="/addWage" class="row g-3">
+            <div class="col-md-6">
+                <label for="teamId" class="form-label">Team:</label>
+                <input type="text" id="teamId" name="teamId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for="shirtId" class="form-label">Shirt Number:</label>
+                <input type="text" id="shirtId" name="shirtId"
+                    class="form-control" required>
+            </div>
+
+            <div class="col-md-6">
+                <label for class="form-label">:</label>
+                <input type="text" id name
+                    class="form-control" required>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary btn-lg mx-2 buttonColour"
+                    type="submit">Add Wage</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

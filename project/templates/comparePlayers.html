@@ -5,12 +5,15 @@ The Two 2 Players Selected
 {% endblock %}
 
 {% block body %}
-<div class="m-5">
-    <h1>The two players selected:</h1>
-    <ul>
+<div class="container m-5">
+    <h1>Player Comparison</h1>
+    <div class="row">
         {% for player, wage in data %}
-        <li>
-            <ul>
+        <div class="col-md-6">
+            <img class="img-fluid playerPhoto"
+                src="{{ url_for('static', filename='players/' + player[1] | replace(' ', '') | lower + '.png') }}"
+                alt="{{ player[1] }}">
+            <ul class="list-unstyled">
                 <li>{{ player[1] | upper }}</li>
                 <li>Kit Number: {{ player[0] }}</li>
                 <li>Team: {% if player[2] == 1%} Manchester City
@@ -24,16 +27,13 @@ The Two 2 Players Selected
                     {% elif player[4] ==4%} Forward
                     {%endif%}</li>
                 <li>Age: {{ player[5] }}</li>
-                <li>Annual Wage: {{ '{:,.0f}'.format(wage[1] *
-                    1000000)}} €</li>
-                <li>Transfer: {{ '{:,.0f}'.format(wage[2] *
-                    1000000)}} €</li>
-
+                <li>Annual Wage: {{ '{:,.0f}'.format(wage[1] * 1000000)}} €</li>
+                <li>Transfer: {{ '{:,.0f}'.format(wage[2] * 1000000)}} €</li>
                 <li>Joined: {{ wage[3] }}</li>
             </ul>
             <br>
-        </li>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}

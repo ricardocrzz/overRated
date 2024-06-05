@@ -31,3 +31,8 @@
 .list-group-item:active {
     background-color: #89428e;
 }
+
+.playerPhoto {
+    height: 300px;
+    max-width: 100%;
+}
