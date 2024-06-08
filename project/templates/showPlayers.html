@@ -6,13 +6,16 @@ Choose Two Players
 
 {% block body %}
 <script>
-    var firstPlayerId = null;
-    var secondPlayerId = null;
+    var firstPlayerTeamId = null;
+    var firstPlayerShirtId = null;
+    var secondPlayerTeamId = null;
+    var secondPlayerShirtId = null;
 
-    function selectFirstPlayer(playerId) {
+    function selectFirstPlayer(playerTeamId,playerShirtId) {
 /*         console.log(`current first player : ${firstPlayerId}`);
         console.log(`You have selected Player ID: ${playerId} on the first list`); */
-        firstPlayerId = playerId;
+        firstPlayerTeamId = playerTeamId;
+        firstPlayerShirtId = playerShirtId;
         
         /* if (firstPlayerId === null) {
             console.log("setting first player");
@@ -27,8 +30,10 @@ Choose Two Players
         });
         event.target.classList.add('active');
     }
-    function selectSecondPlayer(playerId) {
-        secondPlayerId = playerId;
+    function selectSecondPlayer(playerTeamId,playerShirtId) {
+        secondPlayerTeamId = playerTeamId;
+        secondPlayerShirtId = playerShirtId;
+
         updateButtonVisibility();
         document.querySelectorAll('.list-group-item').forEach(function(item) {
             item.classList.remove('active');
@@ -38,12 +43,13 @@ Choose Two Players
 
     function updateButtonVisibility() {
         var compareButton = document.getElementById('compareButton');
-        compareButton.style.display = (firstPlayerId !== null && secondPlayerId !== null) ? 'block' : 'none';
+        compareButton.style.display = (firstPlayerTeamId !== null && firstPlayerShirtId !== null && 
+        secondPlayerTeamId !== null && secondPlayerShirtId !== null) ? 'block' : 'none';
     }
     function compareButtonPressed() {
-        window.location.href = "/compare?firstPlayer=" + firstPlayerId + "&secondPlayer=" + secondPlayerId;
+        window.location.href = "/compare?firstPlayerTeamId=" + firstPlayerTeamId + "&firstPlayerShirtId=" + firstPlayerShirtId +
+            "&secondPlayerTeamId=" + secondPlayerTeamId + "&secondPlayerShirtId=" + secondPlayerShirtId;
     }
-
 </script>
 
 <div class="container m-5">
@@ -54,7 +60,7 @@ Choose Two Players
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown button
+                    Select Team
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Action</a></li>
@@ -65,28 +71,31 @@ Choose Two Players
                 </ul>
             </div>
             <div class="list-group">
-                {% for player, wage in data %}
+                {% for player in data %}
                 <button type="button"
                     class="list-group-item list-group-item-action"
-                    onclick="selectFirstPlayer('{{ player[0] }}')">
-                    <h5 class="mb-1">{{ player[1] | upper }}</h5>
-                    <p class="mb-1">Kit Number: {{ player[0] }}</p>
-                    <p class="mb-1">Team: {% if player[2] == 1%} Manchester City
-                        {% elif player[2] == 5%} Liverpool
+                    onclick="selectFirstPlayer('{{ player.teamId }}', '{{ player.shirtId }}')">
+                    <h5 class="mb-1">{{ player.shirtId }} {{
+                        player.name | upper }}</h5>
+                    <p class="mb-1">Team: {% if player.teamId == 1%} Manchester
+                        City
+                        {% elif player.teamId == 5%} Liverpool
                         {%endif%}</p>
-                    <p class="mb-1">Country: {{ player[3]| upper }}</p>
+                    <p class="mb-1">Country: {{ player.nation| upper }}</p>
                     <p class="mb-1">Field Position:
-                        {% if player[4] == 1%} Goalkeeper
-                        {% elif player[4] == 2%} Defender
-                        {% elif player[4] ==3%} Midfielder
-                        {% elif player[4] ==4%} Forward
+                        {% if player.mainPos == 1%} Goalkeeper
+                        {% elif player.mainPos == 2%} Defender
+                        {% elif player.mainPos ==3%} Midfielder
+                        {% elif player.mainPos ==4%} Forward
                         {%endif%}</p>
-                    <p class="mb-1">Age: {{ player[5] }}</p>
-                    <p class="mb-1">Annual Wage: {{ '{:,.0f}'.format(wage[1] *
+                    <p class="mb-1">Age: {{ player.age }}</p>
+                    <p class="mb-1">Annual Wage: {{
+                        '{:,.0f}'.format(player.annual *
                         1000000) }} €</p>
-                    <p class="mb-1">Transfer: {{ '{:,.0f}'.format(wage[2] *
+                    <p class="mb-1">Transfer: {{
+                        '{:,.0f}'.format(player.transfer *
                         1000000) }} €</p>
-                    <p class="mb-1">Joined: {{ wage[3] }}</p>
+                    <p class="mb-1">Joined: {{ player.joined }}</p>
                 </button>
                 {% endfor %}
             </div>
@@ -94,30 +103,34 @@ Choose Two Players
         <div class="col-md-6">
             <h4>Select Second Player:</h4>
             <div class="list-group">
-                {% for player, wage in data %}
+                {% for player in data %}
                 <button type="button"
                     class="list-group-item list-group-item-action"
-                    onclick="selectSecondPlayer('{{ player[0] }}')">
-                    <h5 class="mb-1">{{ player[1] | upper }}</h5>
-                    <p class="mb-1">Kit Number: {{ player[0] }}</p>
-                    <p class="mb-1">Team: {% if player[2] == 1%} Manchester City
-                        {% elif player[2] == 5%} Liverpool
+                    onclick="selectSecondPlayer('{{ player.teamId }}', '{{ player.shirtId }}')">
+                    <h5 class="mb-1">{{ player.shirtId }} {{
+                        player.name | upper }}</h5>
+                    <p class="mb-1">Team: {% if player.teamId == 1%} Manchester
+                        City
+                        {% elif player.teamId == 5%} Liverpool
                         {%endif%}</p>
-                    <p class="mb-1">Country: {{ player[3]| upper }}</p>
+                    <p class="mb-1">Country: {{ player.nation| upper }}</p>
                     <p class="mb-1">Field Position:
-                        {% if player[4] == 1%} Goalkeeper
-                        {% elif player[4] == 2%} Defender
-                        {% elif player[4] ==3%} Midfielder
-                        {% elif player[4] ==4%} Forward
+                        {% if player.mainPos == 1%} Goalkeeper
+                        {% elif player.mainPos == 2%} Defender
+                        {% elif player.mainPos ==3%} Midfielder
+                        {% elif player.mainPos ==4%} Forward
                         {%endif%}</p>
-                    <p class="mb-1">Age: {{ player[5] }}</p>
-                    <p class="mb-1">Annual Wage: {{ '{:,.0f}'.format(wage[1] *
+                    <p class="mb-1">Age: {{ player.age }}</p>
+                    <p class="mb-1">Annual Wage: {{
+                        '{:,.0f}'.format(player.annual *
                         1000000) }} €</p>
-                    <p class="mb-1">Transfer: {{ '{:,.0f}'.format(wage[2] *
+                    <p class="mb-1">Transfer: {{
+                        '{:,.0f}'.format(player.transfer *
                         1000000) }} €</p>
-                    <p class="mb-1">Joined: {{ wage[3] }}</p>
+                    <p class="mb-1">Joined: {{ player.joined }}</p>
                 </button>
                 {% endfor %}
+
             </div>
         </div>
     </div>

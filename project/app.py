@@ -7,68 +7,106 @@ app=Flask(__name__)
 
 #configure mysql
 db=mysql.connector.connect(**DBCONFIG)
-cursor=db.cursor()
+cursor = db.cursor(dictionary=True)
 
 #shortcut for interacting with db
 def executeQuery(query, params=None):
     cursor.execute(query, params)
     db.commit()
 
+def fetchTeams():
+    cursor.execute('select * from teams')
+    teams=cursor.fetchall()
+    print(teams)
+
+    return teams
+
+def fetchPositions():
+    cursor.execute('select * from positions')
+    positions=cursor.fetchall()
+
+    return positions
+
 #getting all data from db
 def fetchData():
-    #theres two dbs rn, get all data and combine it into one string to output
-    cursor.execute('select * from players')
-    players=cursor.fetchall()
+    cursor.execute('select * from playerInfo')
+    playerInfo=cursor.fetchall()
 
-    cursor.execute('select * from wages')
-    wages=cursor.fetchall()
+    cursor.execute('select * from playerWages')
+    playerWages=cursor.fetchall()
 
-    return [(player, wage) for player in players for wage in wages if player[0] == wage[0]]
+    cursor.execute('select * from playerStats')
+    playerStats=cursor.fetchall()
+
+    combinedData = []
+
+    for player in playerInfo:
+        teamId = player['teamId']
+        shirtId = player['shirtId']
+        
+        wage = next((w for w in playerWages if w['teamId'] == teamId and w['shirtId'] == shirtId), None)
+        stat = next((s for s in playerStats if s['teamId'] == teamId and s['shirtId'] == shirtId), None)
+
+        combinedEntry = {
+            'teamId': teamId,
+            'shirtId': shirtId,
+            'name': player['name'],
+            'nation': player['nation'],
+            'mainPos': player['mainPos'],
+            'priPos': player['priPos'],
+            'age': player['age'],
+            'annual': wage['annual'] if wage else None,
+            'transfer': wage['transfer'] if wage else None,
+            'joined': wage['joined'] if wage else None,
+        }
+        
+        print(combinedEntry)
+        print('\n')
+
+        combinedData.append(combinedEntry)
+
+    return combinedData
+
 
 @app.route('/compare')
 def compare():
-    firstPlayerId=request.args.get('firstPlayer')
-    secondPlayerId=request.args.get('secondPlayer')
+    firstPlayerTeamId = request.args.get('firstPlayerTeamId')
+    firstPlayerShirtId = request.args.get('firstPlayerShirtId')
+    secondPlayerTeamId = request.args.get('secondPlayerTeamId')
+    secondPlayerShirtId = request.args.get('secondPlayerShirtId')
+
     try:
-        query=f"select * from players where playerId = {firstPlayerId}"
-        cursor.execute(query)
-        firstPlayerData = cursor.fetchone()
+        query = """
+        SELECT 
+            pi.teamId, pi.shirtId, pi.name, pi.nation, pi.mainPos, pi.priPos, pi.age,
+            pw.annual, pw.transfer, pw.joined, ps.apps, ps.fullGames, ps.goals, ps.assists,
+            ps.fouls, ps.yellow, ps.red
+        FROM playerInfo pi
+        LEFT JOIN playerWages pw ON pi.teamId = pw.teamId AND pi.shirtId = pw.shirtId
+        LEFT JOIN playerStats ps ON pi.teamId = ps.teamId AND pi.shirtId = ps.shirtId
+        WHERE (pi.teamId = %s AND pi.shirtId = %s) OR (pi.teamId = %s AND pi.shirtId = %s)
+        """
+        cursor.execute(query, (firstPlayerTeamId, firstPlayerShirtId, secondPlayerTeamId, secondPlayerShirtId))
+        players = cursor.fetchall()
 
-        query=f"select * from wages where playerId = {firstPlayerId}"
-        cursor.execute(query)
-        firstPlayerWageData = cursor.fetchone()
+        if not players:
+            error_message = "One or both players not found."
+            return render_template('comparePlayers.html', error=error_message)
 
-        query=f"select * from players where playerId = {secondPlayerId}"
-        cursor.execute(query)
-        secondPlayerData = cursor.fetchone()
+        player_data = [{'info': player, 'wage': player, 'stat': player} for player in players]
+        print(players)
 
-        query=f"select * from wages where playerId = {secondPlayerId}"
-        cursor.execute(query)
-        secondPlayerWageData = cursor.fetchone()
-
-        if firstPlayerData and firstPlayerWageData and secondPlayerData and secondPlayerWageData:
-            totalData = [(firstPlayerData, firstPlayerWageData), (secondPlayerData,secondPlayerWageData)]
-
-        else:
-            print(f"no first player found with id {firstPlayerId}")
-
-        return render_template('comparePlayers.html', data=totalData)
+        return render_template('comparePlayers.html', players=player_data)
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
+        error_message = str(err)
+        return render_template('comparePlayers.html', error=error_message)
 
-    return render_template('comparePlayers.html')  # Handle the case where an error occurs
+    return render_template('comparePlayers.html', error="Unexpected error occurred")
 
 @app.route('/choosePlayers', methods=['POST', 'GET'])
 def choosePlayers():
-    if request.method == 'POST':
-        firstPlayer = request.form.get('firstPlayer')
-        secondPlayer = request.form.get('secondPlayer')
-
-        if firstPlayer and secondPlayer:
-            print(firstPlayer)
-            print(secondPlayer)
-            return redirect('/result')
 
     totalData=fetchData()
     return render_template('showPlayers.html', data=totalData)

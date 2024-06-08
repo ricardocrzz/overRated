@@ -5,35 +5,85 @@ The Two 2 Players Selected
 {% endblock %}
 
 {% block body %}
+<script>
+    function compareHigher(player0,player1) {
+        if (player0>player1) {
+            return player1
+        }
+        else if (player0<player1) {
+            return player1
+        }
+        else {
+            return 2
+        }
+    }
+</script>
 <div class="container m-5">
     <h1>Player Comparison</h1>
     <div class="row">
-        {% for player, wage in data %}
         <div class="col-md-6">
             <img class="img-fluid playerPhoto"
-                src="{{ url_for('static', filename='players/' + player[1] | replace(' ', '') | lower + '.png') }}"
-                alt="{{ player[1] }}">
+                src="{{ url_for('static', filename='players/' + players[0].info.name | replace(' ', '') | lower + '.png') }}"
+                alt="{{ players[0].info.name }}">
             <ul class="list-unstyled">
-                <li>{{ player[1] | upper }}</li>
-                <li>Kit Number: {{ player[0] }}</li>
-                <li>Team: {% if player[2] == 1%} Manchester City
-                    {% elif player[2] == 5%} Liverpool
+                <li>{{ players[0].info.name | upper }}</li>
+                <li>Kit Number: {{ players[0].info.shirtId }}</li>
+                <li>Team: {% if players[0].info.teamId == 1%} Manchester City
+                    {% elif players[0].info.teamId == 5%} Liverpool
                     {%endif%}</li>
-                <li>Country: {{ player[3]| upper }}</li>
+                <li>Country: {{ players[0].info.nation| upper }}</li>
                 <li>Field Position:
-                    {% if player[4] == 1%} Goalkeeper
-                    {% elif player[4] == 2%} Defender
-                    {% elif player[4] ==3%} Midfielder
-                    {% elif player[4] ==4%} Forward
+                    {% if players[0].info.mainPos == 1%} Goalkeeper
+                    {% elif players[0].info.mainPos == 2%} Defender
+                    {% elif players[0].info.mainPos == 3%} Midfielder
+                    {% elif players[0].info.mainPos == 4%} Forward
                     {%endif%}</li>
-                <li>Age: {{ player[5] }}</li>
-                <li>Annual Wage: {{ '{:,.0f}'.format(wage[1] * 1000000)}} €</li>
-                <li>Transfer: {{ '{:,.0f}'.format(wage[2] * 1000000)}} €</li>
-                <li>Joined: {{ wage[3] }}</li>
+<!--                 <li>Age: {{ players[0].info.age }} if compareHigher(players[0].info.age,players[1].info.age) make green</li>
+ -->                <li>Annual Wage: {{ '{:,.0f}'.format(players[0].wage.annual *
+                    1000000)}} €</li>
+                <li>Transfer: {{ '{:,.0f}'.format(players[0].wage.transfer *
+                    1000000)}} €</li>
+                <li>Joined: {{ players[0].wage.joined }}</li>
+                <li>Appearances: {{ players[0].stat.apps }}</li>
+                <li>Full Appearances: {{ players[0].stat.fullGames }}</li>
+                <li>Goals: {{ players[0].stat.goals }}</li>
+                <li>Assists: {{ players[0].stat.assists }}</li>
+                <li>Fouls: {{ players[0].stat.fouls }}</li>
+                <li>Yellow Cards: {{ players[0].stat.yellow }}</li>
+                <li>Red Cards: {{ players[0].stat.red }}</li>
             </ul>
             <br>
         </div>
-        {% endfor %}
-    </div>
-</div>
-{% endblock %}
+        <div class="col-md-6">
+            <img class="img-fluid playerPhoto"
+                src="{{ url_for('static', filename='players/' + players[1].info.name | replace(' ', '') | lower + '.png') }}"
+                alt="{{ players[1].info.name }}">
+            <ul class="list-unstyled">
+                <li>{{ players[1].info.name | upper }}</li>
+                <li>Kit Number: {{ players[1].info.shirtId }}</li>
+                <li>Team: {% if players[1].info.teamId == 1%} Manchester City
+                    {% elif players[1].info.teamId == 5%} Liverpool
+                    {%endif%}</li>
+                <li>Country: {{ players[1].info.nation| upper }}</li>
+                <li>Field Position:
+                    {% if players[1].info.mainPos == 1%} Goalkeeper
+                    {% elif players[1].info.mainPos == 2%} Defender
+                    {% elif players[1].info.mainPos == 3%} Midfielder
+                    {% elif players[1].info.mainPos == 4%} Forward
+                    {%endif%}</li>
+                <li>Age: {{ players[1].info.age }}</li>
+                <li>Annual Wage: {{ '{:,.0f}'.format(players[1].wage.annual *
+                    1000000)}} €</li>
+                <li>Transfer: {{ '{:,.0f}'.format(players[1].wage.transfer *
+                    1000000)}} €</li>
+                <li>Joined: {{ players[1].wage.joined }}</li>
+                <li>Appearances: {{ players[1].stat.apps }}</li>
+                <li>Full Appearances: {{ players[1].stat.fullGames }}</li>
+                <li>Goals: {{ players[1].stat.goals }}</li>
+                <li>Assists: {{ players[1].stat.assists }}</li>
+                <li>Fouls: {{ players[1].stat.fouls }}</li>
+                <li>Yellow Cards: {{ players[1].stat.yellow }}</li>
+                <li>Red Cards: {{ players[1].stat.red }}</li>
+            </div>
+        </div>
+        {% endblock %}

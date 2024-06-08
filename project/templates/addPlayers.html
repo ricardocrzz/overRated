@@ -45,20 +45,8 @@ Adding Player
                 <input type="text" id="age" name="age" class="form-control"
                     required>
             </div>
-
-            <div class="col-12">
-                <button class="btn btn-primary btn-lg mx-2 buttonColour"
-                    type="submit">Add Player</button>
-            </div>
-        </form>
-
-        <br>
-        <form method="post" action="/addWage" class="row g-3">
-            <div class="col-md-6">
-                <label for="playerId" class="form-label">Player Id:</label>
-                <input type="text" id="playerId" name="playerId"
-                    class="form-control" required>
-            </div>
+            <br>
+            <div>Wages</div>
 
             <div class="col-md-6">
                 <label for="annual" class="form-label">Annual Wage:</label>
@@ -77,10 +65,46 @@ Adding Player
                 <input type="text" id="joined" name="joined"
                     class="form-control" required>
             </div>
-
+            <br>
+            <div>Stats</div>
+            <div class="col-md-6">
+                <label for="apps" class="form-label">Appearances:</label>
+                <input type="text" id="apps" name='apps'
+                    class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="fullGames" class="form-label">Full Games:</label>
+                <input type="text" id="fullGames" name='fullGames'
+                    class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="goals" class="form-label">Goals:</label>
+                <input type="text" id="goals" name='goals'
+                    class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="assists" class="form-label">Assists:</label>
+                <input type="text" id="assists" name='assists'
+                    class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="fouls" class="form-label">Fouls:</label>
+                <input type="text" id="fouls" name='fouls'
+                    class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="yellow" class="form-label">Yellow Cards:</label>
+                <input type="text" id="yellow" name='yellow'
+                    class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="red" class="form-label">Red Cards:</label>
+                <input type="text" id="red" name='red'
+                    class="form-control" required>
+            </div>
             <div class="col-12">
                 <button class="btn btn-primary btn-lg mx-2 buttonColour"
-                    type="submit">Add Wage</button>
+                    type="submit">Add Player</button>
             </div>
         </form>
 

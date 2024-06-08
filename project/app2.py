@@ -7,7 +7,7 @@ app=Flask(__name__)
 
 #configure mysql
 db=mysql.connector.connect(**DBCONFIG)
-cursor=db.cursor()
+cursor = db.cursor(dictionary=True)
 
 #shortcut for interacting with db
 def executeQuery(query, params=None):
@@ -17,6 +17,7 @@ def executeQuery(query, params=None):
 def fetchTeams():
     cursor.execute('select * from teams')
     teams=cursor.fetchall()
+    print(teams)
 
     return teams
 
@@ -26,6 +27,7 @@ def fetchPositions():
 
     return positions
 
+#getting all data from db
 def fetchData():
     cursor.execute('select * from playerInfo')
     playerInfo=cursor.fetchall()
@@ -33,55 +35,59 @@ def fetchData():
     cursor.execute('select * from playerWages')
     playerWages=cursor.fetchall()
 
-    cursor.execute('select * from gkStats')
-    gkStats=cursor.fetchall()
+    cursor.execute('select * from playerStats')
+    playerStats=cursor.fetchall()
 
-    cursor.execute('select * from dfStats')
-    dfStatss=cursor.fetchall()
+    combinedData = []
 
-    cursor.execute('select * from mfStats')
-    mfStats=cursor.fetchall()
+    for player in playerInfo:
+        teamId = player['teamId']
+        shirtId = player['shirtId']
+        
+        wage = next((w for w in playerWages if w['teamId'] == teamId and w['shirtId'] == shirtId), None)
+        stat = next((s for s in playerStats if s['teamId'] == teamId and s['shirtId'] == shirtId), None)
 
-    cursor.execute('select * from fwStats')
-    fwStats=cursor.fetchall()
+        combinedEntry = {
+            'teamId': teamId,
+            'shirtId': shirtId,
+            'name': player['name'],
+            'nation': player['nation'],
+            'mainPos': player['mainPos'],
+            'priPos': player['priPos'],
+            'age': player['age'],
+            'annual': wage['annual'] if wage else None,
+            'transfer': wage['transfer'] if wage else None,
+            'joined': wage['joined'] if wage else None,
+        }
+        
+        print(combinedEntry)
+        print('\n')
 
+        combinedData.append(combinedEntry)
 
-    return [(info, wage, stat) for info in playerInfo for wage in playerWages 
+    return combinedData
 
-    
-    for stat in gkStats 
-    for stat in dfStats
-    for stat in mfStats
-    for stat in fwStats
-    
-    if info[0] == wage[0] && info[1] == wage[1]]
 
 @app.route('/compare')
 def compare():
-    firstPlayerId=request.args.get('firstPlayer')
-    secondPlayerId=request.args.get('secondPlayer')
+    firstPlayerTeamId = request.args.get('firstPlayerTeamId')
+    firstPlayerShirtId = request.args.get('firstPlayerShirtId')
+    secondPlayerTeamId = request.args.get('secondPlayerTeamId')
+    secondPlayerShirtId = request.args.get('secondPlayerShirtId')
     try:
-        query=f"select * from players where playerId = {firstPlayerId}"
+        query=f"select * from players where teamId = {firstPlayerTeamId} and shirtId = {firstPlayerShirtId}"
         cursor.execute(query)
         firstPlayerData = cursor.fetchone()
 
-        query=f"select * from wages where playerId = {firstPlayerId}"
-        cursor.execute(query)
-        firstPlayerWageData = cursor.fetchone()
-
-        query=f"select * from players where playerId = {secondPlayerId}"
+        query=f"select * from players where teamId = {secondPlayerTeamId} and shirtId = {secondPlayerShirtId}"
         cursor.execute(query)
         secondPlayerData = cursor.fetchone()
 
-        query=f"select * from wages where playerId = {secondPlayerId}"
-        cursor.execute(query)
-        secondPlayerWageData = cursor.fetchone()
-
-        if firstPlayerData and firstPlayerWageData and secondPlayerData and secondPlayerWageData:
-            totalData = [(firstPlayerData, firstPlayerWageData), (secondPlayerData,secondPlayerWageData)]
+        if firstPlayerData and secondPlayerData:
+            totalData = [firstPlayerData, secondPlayerData]
 
         else:
-            print(f"no first player found with id {firstPlayerId}")
+            print(f"error")
 
         return render_template('comparePlayers.html', data=totalData)
 
@@ -92,15 +98,19 @@ def compare():
 
 @app.route('/choosePlayers', methods=['POST', 'GET'])
 def choosePlayers():
-    if request.method == 'POST':
-        firstPlayer = request.form.get('firstPlayer')
-        secondPlayer = request.form.get('secondPlayer')
+"""     if request.method == 'POST':
+        firstPlayerTeamId = request.form.get('firstPlayerTeamId')
+        firstPlayerShirtId = request.form.get('firstPlayerShirtId')
+        secondPlayerTeamId = request.form.get('secondPlayerTeamId')
+        secondPlayerShirtId = request.form.get('secondPlayerShirtId')
 
-        if firstPlayer and secondPlayer:
-            print(firstPlayer)
-            print(secondPlayer)
+        if firstPlayerTeamId and firstPlayerShirtId and secondPlayerTeamId and secondPlayerShirtId:
+            print(firstPlayerShirtId)
+            print(firstPlayerTeamId)
+            print(secondPlayerShirtId)
+            print(secondPlayerTeamId)
             return redirect('/result')
-
+ """
     totalData=fetchData()
     return render_template('showPlayers.html', data=totalData)
 

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+The Two Players Selected
+{% endblock %}
+
+{% block body %}
+<div class="container m-5">
+    <h1>Player Comparison</h1>
+    <div class="row">
+        {% if players %}
+        {% for player in players %}
+        <div class="col-md-6">
+            <img class="img-fluid playerPhoto"
+                src="{{ url_for('static', filename='players/' + player['info']['name'] | replace(' ', '') | lower + '.png') }}"
+                alt="{{ player['info']['name'] }}">
+            <ul class="list-unstyled">
+                <li>{{ player['info']['name'] | upper }}</li>
+                <li>Kit Number: {{ player['info']['shirtId'] }}</li>
+                <li>Team: {% if player['info']['teamId'] == 1 %} Manchester City
+                    {% elif player['info']['teamId'] == 5 %} Liverpool
+                    {% endif %}</li>
+                <li>Country: {{ player['info']['nation'] | upper }}</li>
+                <li>Field Position:
+                    {% if player['info']['mainPos'] == 1 %} Goalkeeper
+                    {% elif player['info']['mainPos'] == 2 %} Defender
+                    {% elif player['info']['mainPos'] == 3 %} Midfielder
+                    {% elif player['info']['mainPos'] == 4 %} Forward
+                    {% endif %}</li>
+                <li>Age: {{ player['info']['age'] }}</li>
+                <li>Annual Wage: {{ '{:,.0f}'.format(player['wage']['annual'] *
+                    1000000) }} €</li>
+                <li>Transfer: {{ '{:,.0f}'.format(player['wage']['transfer'] *
+                    1000000) }} €</li>
+                <li>Joined: {{ player['wage']['joined'] }}</li>
+            </ul>
+            <br>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No player data available for comparison.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
