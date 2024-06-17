@@ -11,6 +11,9 @@
         <link rel="stylesheet" type="text/css"
             href="{{ url_for('static', filename='styles.css') }}">
         <title>{% block title %}{% endblock %}</title>
+        <link rel="icon" type="image/png"
+            href="{{ url_for('static', filename='plFootball.png') }}" />
+
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -45,17 +48,14 @@
                         <ul class="dropdown-menu"
                             aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item"
-                                    href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another
-                                    action</a></li>
+                                    href="#">Top Players</a></li>
+                            <li><a class="dropdown-item" href="#">Teams</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else
-                                    here</a></li>
+                            <li><a class="dropdown-item" href="#">Make a
+                                    Starting 11</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
+
                 </ul>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search"
@@ -66,12 +66,17 @@
             </div>
         </nav>
 
-        <div>
+        <div class="banner-container">
+            <img class="img-fluid banner" src="../static/foden vs arsenal.webp"
+                alt="Premier League Banner">
+        </div>
+
+        <div class="container text-center">
             {% block body %}
             {% endblock %}
         </div>
         <!-- Footer -->
-        <footer class="bg-dark text-white mt-5 p-4 text-center">
+        <footer class="bg-dark text-white p-4 text-center">
             <p>&copy; 2024 overRated by Ricardo Cruz. All rights reserved.</p>
             <ul class="list-unstyled">
                 <li><a href="#" class="text-white">Privacy Policy</a></li>
