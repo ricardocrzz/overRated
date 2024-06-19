@@ -70,7 +70,9 @@ def fetchData():
 
 @app.route('/compare')
 def compare():
-    params = {name: request.args.get(name) for name in ['firstPlayerTeamId', 'firstPlayerShirtId', 'secondPlayerTeamId', 'secondPlayerShirtId']}
+    #make a dictionary of parameters for each id in the array, such that it returns:
+    #{'firstPlayerTeamId': request.args.get('firstPlayerTeamId'), etc...}
+    params = {id: request.args.get(id) for id in ['firstPlayerTeamId', 'firstPlayerShirtId', 'secondPlayerTeamId', 'secondPlayerShirtId']}
 
     try:
         query = """
@@ -83,13 +85,16 @@ def compare():
         LEFT JOIN playerStats ps ON pi.teamId = ps.teamId AND pi.shirtId = ps.shirtId
         WHERE (pi.teamId = %s AND pi.shirtId = %s) OR (pi.teamId = %s AND pi.shirtId = %s)
         """
+
         cursor.execute(query, (params['firstPlayerTeamId'], params['firstPlayerShirtId'], params['secondPlayerTeamId'], params['secondPlayerShirtId']))
+        #get an array, players of two dictionaries, each with the information of the two players youre comparing
         players = cursor.fetchall()
 
         if not players:
             return render_template('comparePlayers.html', error="One or both players not found.")
 
         playerData = [{'info': player, 'wage': player, 'stat': player} for player in players]
+        print(playerData[0])
 
         comparisons = {
             'ageIndex': (playerData[0]['info']['age'], playerData[1]['info']['age'], lambda x, y: x > y),
@@ -103,16 +108,23 @@ def compare():
             'yellowIndex': (playerData[0]['stat']['yellow'], playerData[1]['stat']['yellow'], lambda x, y: x < y),  # Less yellow cards is better
             'redIndex': (playerData[0]['stat']['red'], playerData[1]['stat']['red'], lambda x, y: x < y)  # Less red cards is better
         }
-        indices = {name: 0 if comp[2](comp[0], comp[1]) else 1 for name, comp in comparisons.items()}
+        #dictionary comprehension: for loop for name and comp in each item of the comparisons dictionary
+        #name is for example, 'ageIndex'
+        #comp is for example, (age of first player, age of second player, the comparison to be made), so (32,25,x>y?)
+        #lets iterate over the comparisons, 'ageIndex','anualIndex', and make a new dictionary
+        #comparisonResults, which has { 'ageIndex': 1 , 'annualIndex': 0 }
+        comparisonResults = {name: 0 if comp[2](comp[0], comp[1]) else 1 for name, comp in comparisons.items()}
 
-        return render_template('comparePlayers.html', players=playerData, **indices)
+        #by returning **comparisonResults in Python, we unpack the dictionary into keyword arguments, for example, it goes from:
+        #{ 'ageIndex': 1 , 'annualIndex': 0 } into arguments, 'ageIndex= 1] , 'annualIndex= 0'
+        #therefore, the return call really looks like this:
+        #render_template('comparePlayers.html', players=playerData, ageIndex=1, annualIndex=0, etc...)
+        return render_template('comparePlayers.html', players=playerData, **comparisonResults)
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
         error_message = str(err)
         return render_template('comparePlayers.html', error=error_message)
-
-    return render_template('comparePlayers.html', error="Unexpected error occurred")
 
 @app.route('/choosePlayers', methods=['POST', 'GET'])
 def choosePlayers():
