@@ -74,43 +74,64 @@ def compare():
     firstPlayerShirtId = request.args.get('firstPlayerShirtId')
     secondPlayerTeamId = request.args.get('secondPlayerTeamId')
     secondPlayerShirtId = request.args.get('secondPlayerShirtId')
+
     try:
-        query=f"select * from players where teamId = {firstPlayerTeamId} and shirtId = {firstPlayerShirtId}"
-        cursor.execute(query)
-        firstPlayerData = cursor.fetchone()
+        query = """
+        SELECT 
+            pi.teamId, pi.shirtId, pi.name, pi.nation, pi.mainPos, pi.priPos, pi.age,
+            pw.annual, pw.transfer, pw.joined, ps.apps, ps.fullGames, ps.goals, ps.assists,
+            ps.fouls, ps.yellow, ps.red
+        FROM playerInfo pi
+        LEFT JOIN playerWages pw ON pi.teamId = pw.teamId AND pi.shirtId = pw.shirtId
+        LEFT JOIN playerStats ps ON pi.teamId = ps.teamId AND pi.shirtId = ps.shirtId
+        WHERE (pi.teamId = %s AND pi.shirtId = %s) OR (pi.teamId = %s AND pi.shirtId = %s)
+        """
+        cursor.execute(query, (firstPlayerTeamId, firstPlayerShirtId, secondPlayerTeamId, secondPlayerShirtId))
+        players = cursor.fetchall()
 
-        query=f"select * from players where teamId = {secondPlayerTeamId} and shirtId = {secondPlayerShirtId}"
-        cursor.execute(query)
-        secondPlayerData = cursor.fetchone()
+        if not players:
+            error_message = "One or both players not found."
+            return render_template('comparePlayers.html', error=error_message)
 
-        if firstPlayerData and secondPlayerData:
-            totalData = [firstPlayerData, secondPlayerData]
+        player_data = [{'info': player, 'wage': player, 'stat': player} for player in players]
 
-        else:
-            print(f"error")
+        # Stats comparison
+        ageIndex = 0 if player_data[0]['info']['age'] > player_data[1]['info']['age'] else 1
+        annualIndex = 0 if player_data[0]['wage']['annual'] > player_data[1]['wage']['annual'] else 1
+        transferIndex = 0 if player_data[0]['wage']['transfer'] > player_data[1]['wage']['transfer'] else 1
+        appsIndex = 0 if player_data[0]['stat']['apps'] > player_data[1]['stat']['apps'] else 1
+        fullGamesIndex = 0 if player_data[0]['stat']['fullGames'] > player_data[1]['stat']['fullGames'] else 1
+        goalsIndex = 0 if player_data[0]['stat']['goals'] > player_data[1]['stat']['goals'] else 1
+        assistsIndex = 0 if player_data[0]['stat']['assists'] > player_data[1]['stat']['assists'] else 1
+        foulsIndex = 0 if player_data[0]['stat']['fouls'] < player_data[1]['stat']['fouls'] else 1  # Less fouls is better
+        yellowIndex = 0 if player_data[0]['stat']['yellow'] < player_data[1]['stat']['yellow'] else 1  # Less yellow cards is better
+        redIndex = 0 if player_data[0]['stat']['red'] < player_data[1]['stat']['red'] else 1  # Less red cards is better
 
-        return render_template('comparePlayers.html', data=totalData)
+        return render_template(
+            'comparePlayers.html', 
+            players=player_data, 
+            ageIndex=ageIndex, 
+            annualIndex=annualIndex, 
+            transferIndex=transferIndex, 
+            appsIndex=appsIndex,
+            fullGamesIndex=fullGamesIndex,
+            goalsIndex=goalsIndex,
+            assistsIndex=assistsIndex,
+            foulsIndex=foulsIndex,
+            yellowIndex=yellowIndex,
+            redIndex=redIndex
+        )
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
+        error_message = str(err)
+        return render_template('comparePlayers.html', error=error_message)
 
-    return render_template('comparePlayers.html')  # Handle the case where an error occurs
+    return render_template('comparePlayers.html', error="Unexpected error occurred")
 
 @app.route('/choosePlayers', methods=['POST', 'GET'])
 def choosePlayers():
-"""     if request.method == 'POST':
-        firstPlayerTeamId = request.form.get('firstPlayerTeamId')
-        firstPlayerShirtId = request.form.get('firstPlayerShirtId')
-        secondPlayerTeamId = request.form.get('secondPlayerTeamId')
-        secondPlayerShirtId = request.form.get('secondPlayerShirtId')
 
-        if firstPlayerTeamId and firstPlayerShirtId and secondPlayerTeamId and secondPlayerShirtId:
-            print(firstPlayerShirtId)
-            print(firstPlayerTeamId)
-            print(secondPlayerShirtId)
-            print(secondPlayerTeamId)
-            return redirect('/result')
- """
     totalData=fetchData()
     return render_template('showPlayers.html', data=totalData)
 
@@ -154,6 +175,9 @@ def addWage():
 def index():
     totalData=fetchData()
     return render_template('index.html', data=totalData)
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

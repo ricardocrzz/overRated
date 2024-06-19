@@ -1,45 +1,90 @@
 {% extends "base.html" %}
 
 {% block title %}
-The Two Players Selected
+The Two 2 Players Selected
 {% endblock %}
 
 {% block body %}
 <div class="container m-5">
     <h1>Player Comparison</h1>
     <div class="row">
-        {% if players %}
-        {% for player in players %}
         <div class="col-md-6">
             <img class="img-fluid playerPhoto"
-                src="{{ url_for('static', filename='players/' + player['info']['name'] | replace(' ', '') | lower + '.png') }}"
-                alt="{{ player['info']['name'] }}">
+                src="{{ url_for('static', filename='players/' + players[0].info.name | replace(' ', '') | lower + '.png') }}"
+                alt="{{ players[0].info.name }}">
             <ul class="list-unstyled">
-                <li>{{ player['info']['name'] | upper }}</li>
-                <li>Kit Number: {{ player['info']['shirtId'] }}</li>
-                <li>Team: {% if player['info']['teamId'] == 1 %} Manchester City
-                    {% elif player['info']['teamId'] == 5 %} Liverpool
-                    {% endif %}</li>
-                <li>Country: {{ player['info']['nation'] | upper }}</li>
+                <li>{{ players[0].info.name | upper }}</li>
+                <li>Kit Number: {{ players[0].info.shirtId }}</li>
+                <li>Team: {% if players[0].info.teamId == 1%} Manchester City
+                    {% elif players[0].info.teamId == 5%} Liverpool
+                    {%endif%}</li>
+                <li>Country: {{ players[0].info.nation| upper }}</li>
                 <li>Field Position:
-                    {% if player['info']['mainPos'] == 1 %} Goalkeeper
-                    {% elif player['info']['mainPos'] == 2 %} Defender
-                    {% elif player['info']['mainPos'] == 3 %} Midfielder
-                    {% elif player['info']['mainPos'] == 4 %} Forward
-                    {% endif %}</li>
-                <li>Age: {{ player['info']['age'] }}</li>
-                <li>Annual Wage: {{ '{:,.0f}'.format(player['wage']['annual'] *
-                    1000000) }} €</li>
-                <li>Transfer: {{ '{:,.0f}'.format(player['wage']['transfer'] *
-                    1000000) }} €</li>
-                <li>Joined: {{ player['wage']['joined'] }}</li>
+                    {% if players[0].info.mainPos == 1%} Goalkeeper
+                    {% elif players[0].info.mainPos == 2%} Defender
+                    {% elif players[0].info.mainPos == 3%} Midfielder
+                    {% elif players[0].info.mainPos == 4%} Forward
+                    {%endif%}</li>
+                <li>Age: <span {% if ageIndex == 0
+                        %}class="text-success" {% endif %}>{{
+                        players[0].info.age }}</span></li>
+                <li>Annual Wage: <span {% if annualIndex == 0
+                        %}class="text-success" {% endif %}>{{
+                        '{:,.0f}'.format(players[0].wage.annual *
+                        1000000)}} €</span></li>
+                <li>Transfer: <span {% if transferIndex == 0
+                        %}class="text-success" {% endif %}>{{
+                        '{:,.0f}'.format(players[0].wage.transfer *
+                        1000000)}} €</span></li>
+                <li>Joined: {{ players[0].wage.joined }}</li>
+                <li>Appearances: {{ players[0].stat.apps }}</li>
+                <li>Full Appearances: {{ players[0].stat.fullGames }}</li>
+                <li>Goals: {{ players[0].stat.goals }}</li>
+                <li>Assists: {{ players[0].stat.assists }}</li>
+                <li>Fouls: {{ players[0].stat.fouls }}</li>
+                <li>Yellow Cards: {{ players[0].stat.yellow }}</li>
+                <li>Red Cards: {{ players[0].stat.red }}</li>
             </ul>
             <br>
         </div>
-        {% endfor %}
-        {% else %}
-        <p>No player data available for comparison.</p>
-        {% endif %}
+        <div class="col-md-6">
+            <img class="img-fluid playerPhoto"
+                src="{{ url_for('static', filename='players/' + players[1].info.name | replace(' ', '') | lower + '.png') }}"
+                alt="{{ players[1].info.name }}">
+            <ul class="list-unstyled">
+                <li>{{ players[1].info.name | upper }}</li>
+                <li>Kit Number: {{ players[1].info.shirtId }}</li>
+                <li>Team: {% if players[1].info.teamId == 1%} Manchester City
+                    {% elif players[1].info.teamId == 5%} Liverpool
+                    {%endif%}</li>
+                <li>Country: {{ players[1].info.nation| upper }}</li>
+                <li>Field Position:
+                    {% if players[1].info.mainPos == 1%} Goalkeeper
+                    {% elif players[1].info.mainPos == 2%} Defender
+                    {% elif players[1].info.mainPos == 3%} Midfielder
+                    {% elif players[1].info.mainPos == 4%} Forward
+                    {%endif%}</li>
+                <li>Age: <span {% if ageIndex == 1
+                        %}class="text-success" {% endif %}>{{
+                        players[1].info.age }}</span></li>
+                <li>Annual Wage: <span {% if annualIndex == 1
+                        %}class="text-success" {% endif %}>{{
+                        '{:,.0f}'.format(players[1].wage.annual *
+                        1000000)}} €</span></li>
+                <li>Transfer: <span {% if transferIndex == 1
+                        %}class="text-success" {% endif %}>{{
+                        '{:,.0f}'.format(players[1].wage.transfer *
+                        1000000)}} €</span></li>
+                <li>Joined: {{ players[1].wage.joined }}</li>
+                <li>Appearances: {{ players[1].stat.apps }}</li>
+                <li>Full Appearances: {{ players[1].stat.fullGames }}</li>
+                <li>Goals: {{ players[1].stat.goals }}</li>
+                <li>Assists: {{ players[1].stat.assists }}</li>
+                <li>Fouls: {{ players[1].stat.fouls }}</li>
+                <li>Yellow Cards: {{ players[1].stat.yellow }}</li>
+                <li>Red Cards: {{ players[1].stat.red }}</li>
+            </ul>
+        </div>
     </div>
 </div>
 {% endblock %}

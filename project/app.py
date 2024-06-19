@@ -70,10 +70,7 @@ def fetchData():
 
 @app.route('/compare')
 def compare():
-    firstPlayerTeamId = request.args.get('firstPlayerTeamId')
-    firstPlayerShirtId = request.args.get('firstPlayerShirtId')
-    secondPlayerTeamId = request.args.get('secondPlayerTeamId')
-    secondPlayerShirtId = request.args.get('secondPlayerShirtId')
+    params = {name: request.args.get(name) for name in ['firstPlayerTeamId', 'firstPlayerShirtId', 'secondPlayerTeamId', 'secondPlayerShirtId']}
 
     try:
         query = """
@@ -86,17 +83,55 @@ def compare():
         LEFT JOIN playerStats ps ON pi.teamId = ps.teamId AND pi.shirtId = ps.shirtId
         WHERE (pi.teamId = %s AND pi.shirtId = %s) OR (pi.teamId = %s AND pi.shirtId = %s)
         """
-        cursor.execute(query, (firstPlayerTeamId, firstPlayerShirtId, secondPlayerTeamId, secondPlayerShirtId))
+        cursor.execute(query, (params['firstPlayerTeamId'], params['firstPlayerShirtId'], params['secondPlayerTeamId'], params['secondPlayerShirtId']))
         players = cursor.fetchall()
 
         if not players:
-            error_message = "One or both players not found."
-            return render_template('comparePlayers.html', error=error_message)
+            return render_template('comparePlayers.html', error="One or both players not found.")
 
-        player_data = [{'info': player, 'wage': player, 'stat': player} for player in players]
-        print(players)
+        playerData = [{'info': player, 'wage': player, 'stat': player} for player in players]
 
-        return render_template('comparePlayers.html', players=player_data)
+        comparisons = {
+            'ageIndex': (playerData[0]['info']['age'], playerData[1]['info']['age'], lambda x, y: x > y),
+            'annualIndex': (playerData[0]['wage']['annual'], playerData[1]['wage']['annual'], lambda x, y: x > y),
+            'transferIndex': (playerData[0]['wage']['transfer'], playerData[1]['wage']['transfer'], lambda x, y: x > y),
+            'appsIndex': (playerData[0]['stat']['apps'], playerData[1]['stat']['apps'], lambda x, y: x > y),
+            'fullGamesIndex': (playerData[0]['stat']['fullGames'], playerData[1]['stat']['fullGames'], lambda x, y: x > y),
+            'goalsIndex': (playerData[0]['stat']['goals'], playerData[1]['stat']['goals'], lambda x, y: x > y),
+            'assistsIndex': (playerData[0]['stat']['assists'], playerData[1]['stat']['assists'], lambda x, y: x > y),
+            'foulsIndex': (playerData[0]['stat']['fouls'], playerData[1]['stat']['fouls'], lambda x, y: x < y),  # Less fouls is better
+            'yellowIndex': (playerData[0]['stat']['yellow'], playerData[1]['stat']['yellow'], lambda x, y: x < y),  # Less yellow cards is better
+            'redIndex': (playerData[0]['stat']['red'], playerData[1]['stat']['red'], lambda x, y: x < y)  # Less red cards is better
+        }
+        indices = {name: 0 if comp[2](comp[0], comp[1]) else 1 for name, comp in comparisons.items()}
+
+        return render_template('comparePlayers.html', players=playerData, **indices)
+        # Stats comparison
+        ageIndex = 0 if playerData[0]['info']['age'] > playerData[1]['info']['age'] else 1
+        annualIndex = 0 if playerData[0]['wage']['annual'] > playerData[1]['wage']['annual'] else 1
+        transferIndex = 0 if playerData[0]['wage']['transfer'] > playerData[1]['wage']['transfer'] else 1
+        appsIndex = 0 if playerData[0]['stat']['apps'] > playerData[1]['stat']['apps'] else 1
+        fullGamesIndex = 0 if playerData[0]['stat']['fullGames'] > playerData[1]['stat']['fullGames'] else 1
+        goalsIndex = 0 if playerData[0]['stat']['goals'] > playerData[1]['stat']['goals'] else 1
+        assistsIndex = 0 if playerData[0]['stat']['assists'] > playerData[1]['stat']['assists'] else 1
+        foulsIndex = 0 if playerData[0]['stat']['fouls'] < playerData[1]['stat']['fouls'] else 1  # Less fouls is better
+        yellowIndex = 0 if playerData[0]['stat']['yellow'] < playerData[1]['stat']['yellow'] else 1  # Less yellow cards is better
+        redIndex = 0 if playerData[0]['stat']['red'] < playerData[1]['stat']['red'] else 1  # Less red cards is better
+
+        return render_template(
+            'comparePlayers.html', 
+            players=playerData, 
+            ageIndex=ageIndex, 
+            annualIndex=annualIndex, 
+            transferIndex=transferIndex, 
+            appsIndex=appsIndex,
+            fullGamesIndex=fullGamesIndex,
+            goalsIndex=goalsIndex,
+            assistsIndex=assistsIndex,
+            foulsIndex=foulsIndex,
+            yellowIndex=yellowIndex,
+            redIndex=redIndex
+        )
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
@@ -151,6 +186,9 @@ def addWage():
 def index():
     totalData=fetchData()
     return render_template('index.html', data=totalData)
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
