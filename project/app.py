@@ -93,8 +93,8 @@ def compare():
         if not players:
             return render_template('comparePlayers.html', error="One or both players not found.")
 
+        #NEED TO FIX THIS
         playerData = [{'info': player, 'wage': player, 'stat': player} for player in players]
-        print(playerData[0])
 
         comparisons = {
             'ageIndex': (playerData[0]['info']['age'], playerData[1]['info']['age'], lambda x, y: x > y),
