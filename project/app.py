@@ -75,6 +75,7 @@ def compare():
     params = {id: request.args.get(id) for id in ['firstPlayerTeamId', 'firstPlayerShirtId', 'secondPlayerTeamId', 'secondPlayerShirtId']}
 
     try:
+        #combine three data tables, based on teamId and shirtId
         query = """
         SELECT 
             pi.teamId, pi.shirtId, pi.name, pi.nation, pi.mainPos, pi.priPos, pi.age,
@@ -85,11 +86,11 @@ def compare():
         LEFT JOIN playerStats ps ON pi.teamId = ps.teamId AND pi.shirtId = ps.shirtId
         WHERE (pi.teamId = %s AND pi.shirtId = %s) OR (pi.teamId = %s AND pi.shirtId = %s)
         """
-
         cursor.execute(query, (params['firstPlayerTeamId'], params['firstPlayerShirtId'], params['secondPlayerTeamId'], params['secondPlayerShirtId']))
         #get an array, players of two dictionaries, each with the information of the two players youre comparing
         players = cursor.fetchall()
-
+        print(players[0])
+        print(players[1])
         if not players:
             return render_template('comparePlayers.html', error="One or both players not found.")
 
