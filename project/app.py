@@ -106,32 +106,6 @@ def compare():
         indices = {name: 0 if comp[2](comp[0], comp[1]) else 1 for name, comp in comparisons.items()}
 
         return render_template('comparePlayers.html', players=playerData, **indices)
-        # Stats comparison
-        ageIndex = 0 if playerData[0]['info']['age'] > playerData[1]['info']['age'] else 1
-        annualIndex = 0 if playerData[0]['wage']['annual'] > playerData[1]['wage']['annual'] else 1
-        transferIndex = 0 if playerData[0]['wage']['transfer'] > playerData[1]['wage']['transfer'] else 1
-        appsIndex = 0 if playerData[0]['stat']['apps'] > playerData[1]['stat']['apps'] else 1
-        fullGamesIndex = 0 if playerData[0]['stat']['fullGames'] > playerData[1]['stat']['fullGames'] else 1
-        goalsIndex = 0 if playerData[0]['stat']['goals'] > playerData[1]['stat']['goals'] else 1
-        assistsIndex = 0 if playerData[0]['stat']['assists'] > playerData[1]['stat']['assists'] else 1
-        foulsIndex = 0 if playerData[0]['stat']['fouls'] < playerData[1]['stat']['fouls'] else 1  # Less fouls is better
-        yellowIndex = 0 if playerData[0]['stat']['yellow'] < playerData[1]['stat']['yellow'] else 1  # Less yellow cards is better
-        redIndex = 0 if playerData[0]['stat']['red'] < playerData[1]['stat']['red'] else 1  # Less red cards is better
-
-        return render_template(
-            'comparePlayers.html', 
-            players=playerData, 
-            ageIndex=ageIndex, 
-            annualIndex=annualIndex, 
-            transferIndex=transferIndex, 
-            appsIndex=appsIndex,
-            fullGamesIndex=fullGamesIndex,
-            goalsIndex=goalsIndex,
-            assistsIndex=assistsIndex,
-            foulsIndex=foulsIndex,
-            yellowIndex=yellowIndex,
-            redIndex=redIndex
-        )
 
     except mysql.connector.Error as err:
         print(f"Error: {err}")
