@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}
+Choose Two Players
+{% endblock %}
+
+{% block body %}
+<script>
+    var firstPlayerTeamId = null;
+    var firstPlayerShirtId = null;
+    var secondPlayerTeamId = null;
+    var secondPlayerShirtId = null;
+
+    function selectFirstPlayer(playerTeamId,playerShirtId) {
+/*         console.log(`current first player : ${firstPlayerId}`);
+        console.log(`You have selected Player ID: ${playerId} on the first list`); */
+        firstPlayerTeamId = playerTeamId;
+        firstPlayerShirtId = playerShirtId;
+        
+        /* if (firstPlayerId === null) {
+            console.log("setting first player");
+            firstPlayerId = playerId;
+        } else {
+            console.log("resetting first player");
+            firstPlayerId = playerId;
+        } */
+        updateButtonVisibility();
+        document.querySelectorAll('.list-group-item').forEach(function(item) {
+            item.classList.remove('active');
+        });
+        event.target.classList.add('active');
+    }
+    function selectSecondPlayer(playerTeamId,playerShirtId) {
+        secondPlayerTeamId = playerTeamId;
+        secondPlayerShirtId = playerShirtId;
+
+        updateButtonVisibility();
+        document.querySelectorAll('.list-group-item').forEach(function(item) {
+            item.classList.remove('active');
+        });
+        event.target.classList.add('active');
+    }
+
+    function updateButtonVisibility() {
+        var compareButton = document.getElementById('compareButton');
+        compareButton.style.display = (firstPlayerTeamId !== null && firstPlayerShirtId !== null && 
+        secondPlayerTeamId !== null && secondPlayerShirtId !== null) ? 'block' : 'none';
+    }
+    function compareButtonPressed() {
+        window.location.href = "/compare?firstPlayerTeamId=" + firstPlayerTeamId + "&firstPlayerShirtId=" + firstPlayerShirtId +
+            "&secondPlayerTeamId=" + secondPlayerTeamId + "&secondPlayerShirtId=" + secondPlayerShirtId;
+    }
+</script>
+
+<div class="container m-5">
+    <h1>Choose Two Players To Compare</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Select First Player:</h4>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Select Team
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another
+                            action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else
+                            here</a></li>
+                </ul>
+            </div>
+            <div class="list-group">
+                {% for player in data %}
+                <button type="button"
+                    class="list-group-item list-group-item-action"
+                    onclick="selectFirstPlayer('{{ player.teamId }}', '{{ player.shirtId }}')">
+                    <h5 class="mb-1">{{ player.shirtId }} {{
+                        player.name | upper }}</h5>
+                    <p class="mb-1">Team: {% if player.teamId == 1%} Manchester
+                        City
+                        {% elif player.teamId == 5%} Liverpool
+                        {%endif%}</p>
+                    <p class="mb-1">Country: {{ player.nation| upper }}</p>
+                    <p class="mb-1">Field Position:
+                        {% if player.mainPos == 1%} Goalkeeper
+                        {% elif player.mainPos == 2%} Defender
+                        {% elif player.mainPos ==3%} Midfielder
+                        {% elif player.mainPos ==4%} Forward
+                        {%endif%}</p>
+                    <p class="mb-1">Age: {{ player.age }}</p>
+                    <p class="mb-1">Annual Wage: {{
+                        '{:,.0f}'.format(player.annual *
+                        1000000) }} €</p>
+                    <p class="mb-1">Transfer: {{
+                        '{:,.0f}'.format(player.transfer *
+                        1000000) }} €</p>
+                    <p class="mb-1">Joined: {{ player.joined }}</p>
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>Select Second Player:</h4>
+            <div class="list-group">
+                {% for player in data %}
+                <button type="button"
+                    class="list-group-item list-group-item-action"
+                    onclick="selectSecondPlayer('{{ player.teamId }}', '{{ player.shirtId }}')">
+                    <h5 class="mb-1">{{ player.shirtId }} {{
+                        player.name | upper }}</h5>
+                    <p class="mb-1">Team: {% if player.teamId == 1%} Manchester
+                        City
+                        {% elif player.teamId == 5%} Liverpool
+                        {%endif%}</p>
+                    <p class="mb-1">Country: {{ player.nation| upper }}</p>
+                    <p class="mb-1">Field Position:
+                        {% if player.mainPos == 1%} Goalkeeper
+                        {% elif player.mainPos == 2%} Defender
+                        {% elif player.mainPos ==3%} Midfielder
+                        {% elif player.mainPos ==4%} Forward
+                        {%endif%}</p>
+                    <p class="mb-1">Age: {{ player.age }}</p>
+                    <p class="mb-1">Annual Wage: {{
+                        '{:,.0f}'.format(player.annual *
+                        1000000) }} €</p>
+                    <p class="mb-1">Transfer: {{
+                        '{:,.0f}'.format(player.transfer *
+                        1000000) }} €</p>
+                    <p class="mb-1">Joined: {{ player.joined }}</p>
+                </button>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary btn-lg mx-2 buttonColour" id="compareButton"
+        style="display: none;" onclick="compareButtonPressed()">Compare</button>
+</div>
+{% endblock %}
