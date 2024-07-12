@@ -63,11 +63,11 @@ Choose Two Players
                     Select Team
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another
-                            action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else
-                            here</a></li>
+                    {% for team in teams %}
+                    <li><a class="dropdown-item" href="#"
+                            onclick="selectTeam('{{ team.id }}', '{{ team.name }}')">{{
+                            team.name }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="list-group">

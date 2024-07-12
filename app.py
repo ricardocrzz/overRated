@@ -14,60 +14,13 @@ def executeQuery(query, params=None):
     cursor.execute(query, params)
     db.commit()
 
-def fetchTeams():
-    cursor.execute('select * from teams')
-    teams=cursor.fetchall()
-    print(teams)
-
-    return teams
-
 def fetchPositions():
     cursor.execute('select * from positions')
     positions=cursor.fetchall()
 
     return positions
 
-#getting all data from db
-def fetchData():
-    cursor.execute('select * from playerInfo')
-    playerInfo=cursor.fetchall()
-
-    cursor.execute('select * from playerWages')
-    playerWages=cursor.fetchall()
-
-    cursor.execute('select * from playerStats')
-    playerStats=cursor.fetchall()
-
-    combinedData = []
-
-    for player in playerInfo:
-        teamId = player['teamId']
-        shirtId = player['shirtId']
-        
-        wage = next((w for w in playerWages if w['teamId'] == teamId and w['shirtId'] == shirtId), None)
-        stat = next((s for s in playerStats if s['teamId'] == teamId and s['shirtId'] == shirtId), None)
-
-        combinedEntry = {
-            'teamId': teamId,
-            'shirtId': shirtId,
-            'name': player['name'],
-            'nation': player['nation'],
-            'mainPos': player['mainPos'],
-            'priPos': player['priPos'],
-            'age': player['age'],
-            'annual': wage['annual'] if wage else None,
-            'transfer': wage['transfer'] if wage else None,
-            'joined': wage['joined'] if wage else None,
-        }
-        
-        #print(combinedEntry)
-        #print('\n')
-
-        combinedData.append(combinedEntry)
-
-    return combinedData
-
-def fetchMf(teamId, shirtId):    
+def fetchMf(teamId, shirtId): 
     query = """
         SELECT 
             xG,
@@ -88,12 +41,12 @@ def fetchMf(teamId, shirtId):
             takeOnsSucc,
             dispossessed,
             aerialDuelsWon
-        FROM playerInfo
-        WHERE (teamId = %s AND shirtId = %s)
+        FROM mfStats
+        WHERE teamId = %s AND shirtId = %s
         """ 
     cursor.execute(query, (teamId,shirtId))
     stats = cursor.fetchall()
-    #print(stats)
+    print(stats)
 
     return stats
 
@@ -135,7 +88,7 @@ def compare():
             #fetchDf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[0]['mainPos'] == 3:
             print(players[0]['name'], 'is a midfielder')    
-            #fetchFw(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            fetchMf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[0]['mainPos'] == 4:
             print('player 0 is a fw')    
             #fetchFw(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
@@ -148,7 +101,7 @@ def compare():
             #fetchDf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[1]['mainPos'] == 3:
             print(players[1]['name'], 'is a midfielder')    
-            #fetchMf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            fetchMf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[1]['mainPos'] == 4:
             print('player 1 is a fw')
             #fetchFw(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
@@ -184,11 +137,67 @@ def compare():
         error_message = str(err)
         return render_template('comparePlayers.html', error=error_message, players=[])
 
+
+#start   choosePlayers.html or "Choose Two Players"
 @app.route('/choosePlayers', methods=['POST', 'GET'])
 def choosePlayers():
 
     totalData=fetchData()
-    return render_template('showPlayers.html', data=totalData)
+    teams=fetchTeams()
+    return render_template('showPlayers.html', data=totalData, teams=teams)
+
+#getting all data from db
+def fetchData():
+    cursor.execute('select * from playerInfo')
+    playerInfo=cursor.fetchall()
+
+    cursor.execute('select * from playerWages')
+    playerWages=cursor.fetchall()
+
+    cursor.execute('select * from playerStats')
+    playerStats=cursor.fetchall()
+
+    combinedData = []
+
+    for player in playerInfo:
+        teamId = player['teamId']
+        shirtId = player['shirtId']
+        
+        wage = next((w for w in playerWages if w['teamId'] == teamId and w['shirtId'] == shirtId), None)
+        stat = next((s for s in playerStats if s['teamId'] == teamId and s['shirtId'] == shirtId), None)
+
+        combinedEntry = {
+            'teamId': teamId,
+            'shirtId': shirtId,
+            'name': player['name'],
+            'nation': player['nation'],
+            'mainPos': player['mainPos'],
+            'priPos': player['priPos'],
+            'age': player['age'],
+            'annual': wage['annual'] if wage else None,
+            'transfer': wage['transfer'] if wage else None,
+            'joined': wage['joined'] if wage else None,
+        }
+        
+        #print(combinedEntry)
+        #print('\n')
+
+        combinedData.append(combinedEntry)
+
+    return combinedData
+
+def fetchTeams():
+    cursor.execute('select * from teams')
+    teams=cursor.fetchall()
+    return teams
+
+#end   choosePlayers.html or "Choose Two Players"
+
+
+
+
+
+
 
 @app.route('/addPlayer', methods=['POST', 'GET'])
 def addPlayer():
@@ -226,10 +235,10 @@ def addWage():
     else:
         return render_template('addPlayers.html')
 
+
 @app.route('/')
 def index():
-    totalData=fetchData()
-    return render_template('index.html', data=totalData)
+    return render_template('index.html')
 
 
 

@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
 {% block title %}
-The Two 2 Players Selected
+The Two Players Selected
 {% endblock %}
 
 {% block body %}
-<div class="container m-5">
+<div class="container mt-5">
         <h1>Player Comparison</h1>
         <div class="row">
                 {% if players|length > 0 %}
-                <div class="col-md-6">
+                <div class="col-12 col-md-6 mb-4">
                         <img class="img-fluid playerPhoto"
                                 src="{{ url_for('static', filename='players/' + players[0].name | replace(' ', '') | lower + '.png') }}"
                                 alt="{{ players[0].name }}">
@@ -20,7 +20,8 @@ The Two 2 Players Selected
                                         Manchester City
                                         {% elif players[0].teamId == 5 %}
                                         Liverpool
-                                        {% endif %}</li>
+                                        {% endif %}
+                                </li>
                                 <li>Country: {{ players[0].nation | upper
                                         }}</li>
                                 <li>Field Position:
@@ -35,59 +36,59 @@ The Two 2 Players Selected
                                         {% endif %}
                                 </li>
                                 <li>Age: <span {% if ageIndex == 0
-                                                %}class="text-success" {%
-                                                endif %}>{{ players[0].age
+                                                %}class="text-success" {% endif
+                                                %}>{{ players[0].age
                                                 }}</span></li>
                                 <li>Annual Wage: <span {% if annualIndex == 0
                                                 %}class="text-success" {% endif
-                                                %}>{{
+                                                %}}>
+                                                {{
                                                 '{:,.0f}'.format(players[0].annual
-                                                * 1000000) }}
-                                                €</span></li>
+                                                * 1000000) }} €</span></li>
                                 <li>Transfer: <span {% if transferIndex == 0
                                                 %}class="text-success" {% endif
-                                                %}>{{
+                                                %}}>
+                                                {{
                                                 '{:,.0f}'.format(players[0].transfer
-                                                * 1000000) }}
-                                                €</span></li>
+                                                * 1000000) }} €</span></li>
                                 <li>Joined: {{ players[0].joined }}</li>
                                 <li>Appearances: <span {% if appsIndex == 0
                                                 %}class="text-success" {% endif
-                                                %}>{{
-                                                players[0].apps }}</span></li>
+                                                %}}>
+                                                {{ players[0].apps
+                                                }}</span></li>
                                 <li>Full Appearances: <span {% if fullGamesIndex
-                                                == 0
-                                                %}class="text-success" {% endif
-                                                %}>{{
-                                                players[0].fullGames
+                                                == 0 %}class="text-success" {%
+                                                endif %}}>
+                                                {{ players[0].fullGames
                                                 }}</span></li>
                                 <li>Goals: <span {% if goalsIndex == 0
-                                                %}class="text-success" {%
-                                                endif %}>{{ players[0].goals
+                                                %}class="text-success" {% endif
+                                                %}>{{ players[0].goals
                                                 }}</span></li>
                                 <li>Assists: <span {% if assistsIndex == 0
                                                 %}class="text-success" {% endif
-                                                %}>{{
-                                                players[0].assists
+                                                %}}>
+                                                {{ players[0].assists
                                                 }}</span></li>
                                 <li>Fouls: <span {% if foulsIndex == 0
-                                                %}class="text-success" {%
-                                                endif %}>{{ players[0].fouls
+                                                %}class="text-success" {% endif
+                                                %}>{{ players[0].fouls
                                                 }}</span></li>
                                 <li>Yellow Cards: <span {% if yellowIndex == 0
                                                 %}class="text-success" {% endif
-                                                %}>{{
-                                                players[0].yellow }}</span></li>
+                                                %}}>
+                                                {{ players[0].yellow
+                                                }}</span></li>
                                 <li>Red Cards: <span {% if redIndex == 0
-                                                %}class="text-success"
-                                                {% endif %}>{{ players[0].red
+                                                %}class="text-success" {% endif
+                                                %}}>{{ players[0].red
                                                 }}</span></li>
                         </ul>
                         <br>
                 </div>
-                {% endif %}
-                {% if players|length > 1 %}
-                <div class="col-md-6">
+
+                <div class="col-12 col-md-6 mb-4">
                         <img class="img-fluid playerPhoto"
                                 src="{{ url_for('static', filename='players/' + players[1].name | replace(' ', '') | lower + '.png') }}"
                                 alt="{{ players[1].name }}">
@@ -114,56 +115,58 @@ The Two 2 Players Selected
                                         {% endif %}
                                 </li>
                                 <li>Age: <span {% if ageIndex == 1
-                                                %}class="text-success" {%
-                                                endif %}>{{ players[1].age
+                                                %}class="text-success" {% endif
+                                                %}>{{ players[1].age
                                                 }}</span></li>
                                 <li>Annual Wage: <span {% if annualIndex == 1
                                                 %}class="text-success" {% endif
-                                                %}>{{
+                                                %}}>
+                                                {{
                                                 '{:,.0f}'.format(players[1].annual
-                                                * 1000000) }}
-                                                €</span></li>
+                                                * 1000000) }} €</span></li>
                                 <li>Transfer: <span {% if transferIndex == 1
                                                 %}class="text-success" {% endif
-                                                %}>{{
+                                                %}}>
+                                                {{
                                                 '{:,.0f}'.format(players[1].transfer
-                                                * 1000000) }}
-                                                €</span></li>
+                                                * 1000000) }} €</span></li>
                                 <li>Joined: {{ players[1].joined }}</li>
                                 <li>Appearances: <span {% if appsIndex == 1
                                                 %}class="text-success" {% endif
-                                                %}>{{
-                                                players[1].apps }}</span></li>
+                                                %}}>
+                                                {{ players[1].apps
+                                                }}</span></li>
                                 <li>Full Appearances: <span {% if fullGamesIndex
-                                                == 1
-                                                %}class="text-success" {% endif
-                                                %}>{{
-                                                players[1].fullGames
+                                                == 1 %}class="text-success" {%
+                                                endif %}}>
+                                                {{ players[1].fullGames
                                                 }}</span></li>
                                 <li>Goals: <span {% if goalsIndex == 1
-                                                %}class="text-success" {%
-                                                endif %}>{{ players[1].goals
+                                                %}class="text-success" {% endif
+                                                %}>{{ players[1].goals
                                                 }}</span></li>
                                 <li>Assists: <span {% if assistsIndex == 1
                                                 %}class="text-success" {% endif
-                                                %}>{{
-                                                players[1].assists
+                                                %}}>
+                                                {{ players[1].assists
                                                 }}</span></li>
                                 <li>Fouls: <span {% if foulsIndex == 1
-                                                %}class="text-success" {%
-                                                endif %}>{{ players[1].fouls
+                                                %}class="text-success" {% endif
+                                                %}>{{ players[1].fouls
                                                 }}</span></li>
                                 <li>Yellow Cards: <span {% if yellowIndex == 1
                                                 %}class="text-success" {% endif
-                                                %}>{{
-                                                players[1].yellow }}</span></li>
+                                                %}}>
+                                                {{ players[1].yellow
+                                                }}</span></li>
                                 <li>Red Cards: <span {% if redIndex == 1
-                                                %}class="text-success"
-                                                {% endif %}>{{ players[1].red
+                                                %}class="text-success" {% endif
+                                                %}}>{{ players[1].red
                                                 }}</span></li>
                         </ul>
                 </div>
                 {% endif %}
+
                 {% if players|length == 0 %}
                 <p>No players found.</p>
                 {% endif %}
