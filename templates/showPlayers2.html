@@ -6,24 +6,34 @@ Choose Two Players
 
 {% block body %}
 <script>
-    var teamId = null;
+    var firstTeamId = null;
+    var secondTeamId = null;
     var firstPlayerTeamId = null;
     var firstPlayerShirtId = null;
     var secondPlayerTeamId = null;
     var secondPlayerShirtId = null;
 
-    function selectTeam(id) {
-        teamId = id;
-        updateSelectedPlayers();
+    function selectFirstTeam(id) {
+        firstTeamId = id;
+        updateSelectedPlayers(firstTeamId);
+    }
+    function selectSecondTeam(id) {
+        secondTeamId = id;
+        updateSelectedPlayers(secondTeamId);
     }
 
     function updateSelectedPlayers() {
         document.querySelectorAll('.list-group-item').forEach(function(item) {
-            if (teamId === null || item.dataset.teamId === teamId)
-        }
+            var teamId = item.dataset.teamId;
+            if ((firstTeamId === null || teamId === firstTeamId) || (secondTeamId === null || teamId === secondTeamId)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
     }
 
-    function selectFirstPlayer(playerTeamId,playerShirtId) {
+    function selectFirstPlayer(playerTeamId, playerShirtId, event) {
 /*         console.log(`current first player : ${firstPlayerId}`);
         console.log(`You have selected Player ID: ${playerId} on the first list`); */
         firstPlayerTeamId = playerTeamId;
@@ -42,7 +52,7 @@ Choose Two Players
         });
         event.target.classList.add('active');
     }
-    function selectSecondPlayer(playerTeamId,playerShirtId) {
+    function selectSecondPlayer(playerTeamId, playerShirtId, event) {
         secondPlayerTeamId = playerTeamId;
         secondPlayerShirtId = playerShirtId;
 
@@ -75,9 +85,11 @@ Choose Two Players
                     Select Team
                 </button>
                 <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"
+                            onclick="selectFirstTeam(null)">All Teams</a></li>
                     {% for team in teams %}
                     <li><a class="dropdown-item" href="#"
-                            onclick="selectTeam('{{ team.id }}')">{{
+                            onclick="selectFirstTeam('{{ team.id }}')">{{
                             team.name }}</a></li>
                     {% endfor %}
                 </ul>
@@ -86,13 +98,13 @@ Choose Two Players
                 {% for player in data %}
                 <button type="button"
                     class="list-group-item list-group-item-action"
-                    onclick="selectFirstPlayer('{{ player.teamId }}', '{{ player.shirtId }}')">
+                    data-team-id="{{ player.teamId }}"
+                    onclick="selectFirstPlayer('{{ player.teamId }}', '{{ player.shirtId }}', event)">
                     <h5 class="mb-1">{{ player.shirtId }} {{
                         player.name | upper }}</h5>
-                    <p class="mb-1">Team: {% if player.teamId == 1%} Manchester
-                        City
-                        {% elif player.teamId == 5%} Liverpool
-                        {%endif%}</p>
+                    <p class="mb-1">Team: {% for team in teams %}{% if team.id
+                        == player.teamId %}{{ team.name }}{% endif %}{% endfor
+                        %}</p>
                     <p class="mb-1">Country: {{ player.nation| upper }}</p>
                     <p class="mb-1">Field Position:
                         {% if player.mainPos == 1%} Goalkeeper
@@ -121,9 +133,11 @@ Choose Two Players
                     Select Team
                 </button>
                 <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#"
+                            onclick="selectSecondTeam(null)">All Teams</a></li>
                     {% for team in teams %}
                     <li><a class="dropdown-item" href="#"
-                            onclick="selectTeam('{{ team.id }}', '{{ team.name }}')">{{
+                            onclick="selectSecondTeam('{{ team.id }}')">{{
                             team.name }}</a></li>
                     {% endfor %}
                 </ul>
@@ -132,13 +146,13 @@ Choose Two Players
                 {% for player in data %}
                 <button type="button"
                     class="list-group-item list-group-item-action"
-                    onclick="selectSecondPlayer('{{ player.teamId }}', '{{ player.shirtId }}')">
+                    data-team-id="{{ player.teamId }}"
+                    onclick="selectSecondPlayer('{{ player.teamId }}', '{{ player.shirtId }}', event)">
                     <h5 class="mb-1">{{ player.shirtId }} {{
                         player.name | upper }}</h5>
-                    <p class="mb-1">Team: {% if player.teamId == 1%} Manchester
-                        City
-                        {% elif player.teamId == 5%} Liverpool
-                        {%endif%}</p>
+                    <p class="mb-1">Team: {% for team in teams %}{% if team.id
+                        == player.teamId %}{{ team.name }}{% endif %}{% endfor
+                        %}</p>
                     <p class="mb-1">Country: {{ player.nation| upper }}</p>
                     <p class="mb-1">Field Position:
                         {% if player.mainPos == 1%} Goalkeeper
