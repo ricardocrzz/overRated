@@ -19,15 +19,11 @@ Choose Two Players
 
     function updateSelectedPlayers() {
         document.querySelectorAll('.list-group-item').forEach(function(item) {
-            if (teamId === null || item.dataset.teamId === teamId) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
+            if (teamId === null || item.dataset.teamId === teamId)
+        }
     }
 
-    function selectFirstPlayer(playerTeamId, playerShirtId, event) {
+    function selectFirstPlayer(playerTeamId,playerShirtId) {
 /*         console.log(`current first player : ${firstPlayerId}`);
         console.log(`You have selected Player ID: ${playerId} on the first list`); */
         firstPlayerTeamId = playerTeamId;
@@ -46,7 +42,7 @@ Choose Two Players
         });
         event.target.classList.add('active');
     }
-    function selectSecondPlayer(playerTeamId, playerShirtId, event) {
+    function selectSecondPlayer(playerTeamId,playerShirtId) {
         secondPlayerTeamId = playerTeamId;
         secondPlayerShirtId = playerShirtId;
 
@@ -79,8 +75,6 @@ Choose Two Players
                     Select Team
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#"
-                            onclick="selectTeam(null)">All Teams</a></li>
                     {% for team in teams %}
                     <li><a class="dropdown-item" href="#"
                             onclick="selectTeam('{{ team.id }}')">{{
@@ -92,13 +86,13 @@ Choose Two Players
                 {% for player in data %}
                 <button type="button"
                     class="list-group-item list-group-item-action"
-                    data-team-id="{{ player.teamId }}"
-                    onclick="selectFirstPlayer('{{ player.teamId }}', '{{ player.shirtId }}', event)">
+                    onclick="selectFirstPlayer('{{ player.teamId }}', '{{ player.shirtId }}')">
                     <h5 class="mb-1">{{ player.shirtId }} {{
                         player.name | upper }}</h5>
-                    <p class="mb-1">Team: {% for team in teams %}{% if team.id
-                        == player.teamId %}{{ team.name }}{% endif %}{% endfor
-                        %}</p>
+                    <p class="mb-1">Team: {% if player.teamId == 1%} Manchester
+                        City
+                        {% elif player.teamId == 5%} Liverpool
+                        {%endif%}</p>
                     <p class="mb-1">Country: {{ player.nation| upper }}</p>
                     <p class="mb-1">Field Position:
                         {% if player.mainPos == 1%} Goalkeeper
@@ -127,11 +121,9 @@ Choose Two Players
                     Select Team
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#"
-                            onclick="selectTeam(null)">All Teams</a></li>
                     {% for team in teams %}
                     <li><a class="dropdown-item" href="#"
-                            onclick="selectTeam('{{ team.id }}')">{{
+                            onclick="selectTeam('{{ team.id }}', '{{ team.name }}')">{{
                             team.name }}</a></li>
                     {% endfor %}
                 </ul>
@@ -140,13 +132,13 @@ Choose Two Players
                 {% for player in data %}
                 <button type="button"
                     class="list-group-item list-group-item-action"
-                    data-team-id="{{ player.teamId }}"
-                    onclick="selectSecondPlayer('{{ player.teamId }}', '{{ player.shirtId }}', event)">
+                    onclick="selectSecondPlayer('{{ player.teamId }}', '{{ player.shirtId }}')">
                     <h5 class="mb-1">{{ player.shirtId }} {{
                         player.name | upper }}</h5>
-                    <p class="mb-1">Team: {% for team in teams %}{% if team.id
-                        == player.teamId %}{{ team.name }}{% endif %}{% endfor
-                        %}</p>
+                    <p class="mb-1">Team: {% if player.teamId == 1%} Manchester
+                        City
+                        {% elif player.teamId == 5%} Liverpool
+                        {%endif%}</p>
                     <p class="mb-1">Country: {{ player.nation| upper }}</p>
                     <p class="mb-1">Field Position:
                         {% if player.mainPos == 1%} Goalkeeper
