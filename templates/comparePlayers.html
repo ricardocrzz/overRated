@@ -84,6 +84,42 @@ The Two Players Selected
                                                 %}class="text-success" {% endif
                                                 %}}>{{ players[0].red
                                                 }}</span></li>
+                                {% if players[0].mainPos == 3%}
+                                <li>xG: {{ pos1[0].xG }}</li>
+                                <li>xA: {{ pos1[0].xA }}</li>
+                                <li>Progressive Carries: {{ pos1[0].proCarries
+                                        }}</li>
+                                <li>Progressive Passes: {{ pos1[0].proPasses
+                                        }}</li>
+                                <li>Shots on Target Percentage: {{
+                                        pos1[0].shotsOnTargetPer
+                                        }}</li>
+                                <li>Passes Attempted: {{ pos1[0].passesAttempted
+                                        }}</li>
+                                <li>Passes Completed: {{ pos1[0].passesCompleted
+                                        }}</li>
+                                <li>Passes to Shot: {{ pos1[0].passesToShot
+                                        }}</li>
+                                <li>Crosses: {{ pos1[0].crosses }}</li>
+                                <li>Shot Creating Actions: {{
+                                        pos1[0].shotCreatingActions }}</li>
+                                <li>Dribbles Stopped Percentage: {{
+                                        pos1[0].dribblesStoppedPer
+                                        }}</li>
+                                <li>Blocks: {{ pos1[0].blocks }}</li>
+                                <li>Interceptions: {{ pos1[0].interceptions
+                                        }}</li>
+                                <li>Touches: {{ pos1[0].touches }}</li>
+                                <li>Take-ons Attempted: {{ pos1[0].takeOnsAtt
+                                        }}</li>
+                                <li>Take-ons Succeeded: {{ pos1[0].takeOnsSucc
+                                        }}</li>
+                                <li>Dispossessed: {{ pos1[0].dispossessed
+                                        }}</li>
+                                <li>Aerial Duels Won Percentage: {{
+                                        pos1[0].aerialDuelsWon
+                                        }}</li>
+                                {%endif%}
                         </ul>
                         <br>
                 </div>
@@ -163,6 +199,42 @@ The Two Players Selected
                                                 %}class="text-success" {% endif
                                                 %}}>{{ players[1].red
                                                 }}</span></li>
+                                {% if players[1].mainPos == 3%}
+                                <li>xG: {{ pos2[0].xG }}</li>
+                                <li>xA: {{ pos2[0].xA }}</li>
+                                <li>Progressive Carries: {{ pos2[0].proCarries
+                                        }}</li>
+                                <li>Progressive Passes: {{ pos2[0].proPasses
+                                        }}</li>
+                                <li>Shots on Target Percentage: {{
+                                        pos2[0].shotsOnTargetPer
+                                        }}</li>
+                                <li>Passes Attempted: {{ pos2[0].passesAttempted
+                                        }}</li>
+                                <li>Passes Completed: {{ pos2[0].passesCompleted
+                                        }}</li>
+                                <li>Passes to Shot: {{ pos2[0].passesToShot
+                                        }}</li>
+                                <li>Crosses: {{ pos2[0].crosses }}</li>
+                                <li>Shot Creating Actions: {{
+                                        pos2[0].shotCreatingActions }}</li>
+                                <li>Dribbles Stopped Percentage: {{
+                                        pos2[0].dribblesStoppedPer
+                                        }}</li>
+                                <li>Blocks: {{ pos2[0].blocks }}</li>
+                                <li>Interceptions: {{ pos2[0].interceptions
+                                        }}</li>
+                                <li>Touches: {{ pos2[0].touches }}</li>
+                                <li>Take-ons Attempted: {{ pos2[0].takeOnsAtt
+                                        }}</li>
+                                <li>Take-ons Succeeded: {{ pos2[0].takeOnsSucc
+                                        }}</li>
+                                <li>Dispossessed: {{ pos2[0].dispossessed
+                                        }}</li>
+                                <li>Aerial Duels Won Percentage: {{
+                                        pos2[0].aerialDuelsWon
+                                        }}</li>
+                                {%endif%}
                         </ul>
                 </div>
                 {% endif %}

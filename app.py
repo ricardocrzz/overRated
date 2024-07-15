@@ -28,7 +28,7 @@ def fetchMf(teamId, shirtId):
             proCarries,
             proPasses,
             shotsOnTargetPer,
-            passesAttemped,
+            passesAttempted,
             passesCompleted,
             passesToShot,
             crosses,
@@ -50,10 +50,41 @@ def fetchMf(teamId, shirtId):
 
     return stats
 
+def fetchFw(teamId, shirtId): 
+    query = """
+        SELECT 
+            pkScored,
+            pkAttempt,
+            xG,
+            npxG,
+            xA,
+            proCarries,
+            shotsOnTargetPer,
+            goalsPerShot,
+            passesToShot,
+            crossesIntoArea,
+            shotCreatingActions,
+            succTakeOn,
+            foulsWon,
+            goalCreatingActions,
+            miscontrols,
+            dispossessed,
+            offsides,
+            aerialDuelsWon
+        FROM fwStats
+        WHERE teamId = %s AND shirtId = %s
+    """
 
+    cursor.execute(query, (teamId,shirtId))
+    stats = cursor.fetchall()
+    print(stats)
+
+    return stats
 
 @app.route('/compare')
 def compare():
+    pos1 = []
+    pos2 = []
     def safe_int(val, default=0):
         return val if val is not None else default
 
@@ -86,12 +117,11 @@ def compare():
         elif players[0]['mainPos'] == 2:
             print('main pos 2 for player 0')   
             #fetchDf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
-        elif players[0]['mainPos'] == 3:
-            print(players[0]['name'], 'is a midfielder')    
-            fetchMf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+        elif players[0]['mainPos'] == 3:               
+            pos1 = fetchMf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[0]['mainPos'] == 4:
-            print('player 0 is a fw')    
-            #fetchFw(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            print(players[0]['name'], 'is a forward') 
+            fetchFw(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
 
         if players[1]['mainPos'] == 1:
             print('main pos 1 for player 1')    
@@ -100,11 +130,10 @@ def compare():
             print('main pos 2 for player 1')    
             #fetchDf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[1]['mainPos'] == 3:
-            print(players[1]['name'], 'is a midfielder')    
-            fetchMf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            pos2 = fetchMf(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
         elif players[1]['mainPos'] == 4:
-            print('player 1 is a fw')
-            #fetchFw(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            print(players[1]['name'], 'is a forward') 
+            fetchFw(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
 
         comparisons = {
             'ageIndex': (safe_int(players[0]['age']), safe_int(players[1]['age']), lambda x, y: x > y),
@@ -129,7 +158,7 @@ def compare():
         #{ 'ageIndex': 1 , 'annualIndex': 0 } into arguments, 'ageIndex= 1] , 'annualIndex= 0'
         #therefore, the return call really looks like this:
         #render_template('comparePlayers.html', players=players, ageIndex=1, annualIndex=0, etc...)
-        return render_template('comparePlayers.html', players=players, **comparisonResults)
+        return render_template('comparePlayers.html', players=players, **comparisonResults, pos1 = pos1, pos2 = pos2)
 
     except mysql.connector.Error as err:
         print("yooo")
