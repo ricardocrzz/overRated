@@ -19,6 +19,49 @@ def fetchPositions():
     positions=cursor.fetchall()
 
     return positions
+def fetchGk(teamId, shirtId):
+    query = """
+        SELECT 
+            goalsAgainst,
+            shotsOnTargetConceeded,
+            savePer,
+            cleanSheets,
+            launchCompPer,
+            goalsAgainstExpected,
+            goalsAgainstExpectedPer,
+            crossesStoppedPer,
+            sweeps,
+            penaltiesSavedPer,
+            errors
+        FROM gkStats
+        WHERE teamId = %s AND shirtId = %s
+    """
+    cursor.execute(query, (teamId, shirtId))
+    stats = cursor.fetchall()
+    print(stats)
+    return stats
+
+def fetchDf(teamId, shirtId):
+    query = """
+        SELECT 
+            onGoalsAgainst,
+            tackles,
+            tacklesWon,
+            dribblesStoppedPer,
+            blocks,
+            interceptions,
+            clearances,
+            errors,
+            carries,
+            aerialDuelsWon
+        FROM dfStats
+        WHERE teamId = %s AND shirtId = %s
+    """
+    cursor.execute(query, (teamId, shirtId))
+    stats = cursor.fetchall()
+    print(stats)
+    return stats
+
 
 def fetchMf(teamId, shirtId): 
     query = """
@@ -112,28 +155,26 @@ def compare():
             return render_template('comparePlayers.html', error="One or both players not found.")
 
         if players[0]['mainPos'] == 1:
-            print('main pos 1 for player 0')            
-            #fetchGk(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            print(players[0]['name'], 'is a goalkeeper')         
+            fetchGk(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[0]['mainPos'] == 2:
-            print('main pos 2 for player 0')   
-            #fetchDf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            print(players[0]['name'], 'is a defender')         
+            fetchDf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[0]['mainPos'] == 3:               
             pos1 = fetchMf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[0]['mainPos'] == 4:
-            print(players[0]['name'], 'is a forward') 
-            fetchFw(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            pos1 = fetchFw(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
 
         if players[1]['mainPos'] == 1:
-            print('main pos 1 for player 1')    
-            #fetchGk(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            print(players[1]['name'], 'is a goalkeeper')         
+            fetchGk(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
         elif players[1]['mainPos'] == 2:
-            print('main pos 2 for player 1')    
-            #fetchDf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            print(players[1]['name'], 'is a defender')         
+            fetchDf(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
         elif players[1]['mainPos'] == 3:
             pos2 = fetchMf(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
         elif players[1]['mainPos'] == 4:
-            print(players[1]['name'], 'is a forward') 
-            fetchFw(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
+            pos2 = fetchFw(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
 
         comparisons = {
             'ageIndex': (safe_int(players[0]['age']), safe_int(players[1]['age']), lambda x, y: x > y),

@@ -119,6 +119,38 @@ The Two Players Selected
                                 <li>Aerial Duels Won Percentage: {{
                                         pos1[0].aerialDuelsWon
                                         }}</li>
+                                {% elif players[0].mainPos == 4%}
+                                <li>Penalties Scored: {{ pos1[0].pkScored
+                                        }}</li>
+                                <li>Penalties Attempted: {{ pos1[0].pkAttempt
+                                        }}</li>
+                                <li>Expected Goals: {{ pos1[0].xG }}</li>
+                                <li>Non-penalty Expected Goals: {{ pos1[0].npxG
+                                        }}</li>
+                                <li>Expected Assists: {{ pos1[0].xA }}</li>
+                                <li>Progressive Carries: {{ pos1[0].proCarries
+                                        }}</li>
+                                <li>Shots on Target Percentage: {{
+                                        pos1[0].shotsOnTargetPer }}</li>
+                                <li>Goals Per Shot: {{ pos1[0].goalsPerShot
+                                        }}</li>
+                                <li>Passes to Shot: {{ pos1[0].passesToShot
+                                        }}</li>
+                                <li>Crosses into Area: {{
+                                        pos1[0].crossesIntoArea }}</li>
+                                <li>Shot Creating Actions: {{
+                                        pos1[0].shotCreatingActions }}</li>
+                                <li>Successful Take-ons: {{ pos1[0].succTakeOn
+                                        }}</li>
+                                <li>Fouls Won: {{ pos1[0].foulsWon }}</li>
+                                <li>Goal Creating Actions: {{
+                                        pos1[0].goalCreatingActions }}</li>
+                                <li>Miscontrols: {{ pos1[0].miscontrols }}</li>
+                                <li>Dispossessed: {{ pos1[0].dispossessed
+                                        }}</li>
+                                <li>Offsides: {{ pos1[0].offsides }}</li>
+                                <li>Aerial Duels Won Percentage: {{
+                                        pos1[0].aerialDuelsWon }}</li>
                                 {%endif%}
                         </ul>
                         <br>
@@ -234,6 +266,38 @@ The Two Players Selected
                                 <li>Aerial Duels Won Percentage: {{
                                         pos2[0].aerialDuelsWon
                                         }}</li>
+                                {% elif players[0].mainPos == 4%}
+                                <li>Penalties Scored: {{ pos2[0].pkScored
+                                        }}</li>
+                                <li>Penalties Attempted: {{ pos2[0].pkAttempt
+                                        }}</li>
+                                <li>Expected Goals: {{ pos2[0].xG }}</li>
+                                <li>Non-penalty Expected Goals: {{ pos2[0].npxG
+                                        }}</li>
+                                <li>Expected Assists: {{ pos2[0].xA }}</li>
+                                <li>Progressive Carries: {{ pos2[0].proCarries
+                                        }}</li>
+                                <li>Shots on Target Percentage: {{
+                                        pos2[0].shotsOnTargetPer }}</li>
+                                <li>Goals Per Shot: {{ pos2[0].goalsPerShot
+                                        }}</li>
+                                <li>Passes to Shot: {{ pos2[0].passesToShot
+                                        }}</li>
+                                <li>Crosses into Area: {{
+                                        pos2[0].crossesIntoArea }}</li>
+                                <li>Shot Creating Actions: {{
+                                        pos2[0].shotCreatingActions }}</li>
+                                <li>Successful Take-ons: {{ pos2[0].succTakeOn
+                                        }}</li>
+                                <li>Fouls Won: {{ pos2[0].foulsWon }}</li>
+                                <li>Goal Creating Actions: {{
+                                        pos2[0].goalCreatingActions }}</li>
+                                <li>Miscontrols: {{ pos2[0].miscontrols }}</li>
+                                <li>Dispossessed: {{ pos2[0].dispossessed
+                                        }}</li>
+                                <li>Offsides: {{ pos2[0].offsides }}</li>
+                                <li>Aerial Duels Won Percentage: {{
+                                        pos2[0].aerialDuelsWon }}</li>
                                 {%endif%}
                         </ul>
                 </div>
