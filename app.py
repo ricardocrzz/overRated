@@ -155,22 +155,18 @@ def compare():
             return render_template('comparePlayers.html', error="One or both players not found.")
 
         if players[0]['mainPos'] == 1:
-            print(players[0]['name'], 'is a goalkeeper')         
-            fetchGk(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            pos1 = fetchGk(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[0]['mainPos'] == 2:
-            print(players[0]['name'], 'is a defender')         
-            fetchDf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
+            pos1 = fetchDf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[0]['mainPos'] == 3:               
             pos1 = fetchMf(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
         elif players[0]['mainPos'] == 4:
             pos1 = fetchFw(params['firstPlayerTeamId'], params['firstPlayerShirtId'])
 
         if players[1]['mainPos'] == 1:
-            print(players[1]['name'], 'is a goalkeeper')         
-            fetchGk(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
+            pos2 = fetchGk(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
         elif players[1]['mainPos'] == 2:
-            print(players[1]['name'], 'is a defender')         
-            fetchDf(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
+            pos2 = fetchDf(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
         elif players[1]['mainPos'] == 3:
             pos2 = fetchMf(params['secondPlayerTeamId'], params['secondPlayerShirtId'])
         elif players[1]['mainPos'] == 4:

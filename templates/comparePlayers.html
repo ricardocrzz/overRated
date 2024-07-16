@@ -84,7 +84,41 @@ The Two Players Selected
                                                 %}class="text-success" {% endif
                                                 %}}>{{ players[0].red
                                                 }}</span></li>
-                                {% if players[0].mainPos == 3%}
+                                {% if players[0].mainPos == 1 %}
+                                <li>Goals Against: {{ pos1[0].goalsAgainst
+                                        }}</li>
+                                <li>Shots on Target Conceded: {{
+                                        pos1[0].shotsOnTargetConceeded }}</li>
+                                <li>Save Percentage: {{ pos1[0].savePer }}</li>
+                                <li>Clean Sheets: {{ pos1[0].cleanSheets }}</li>
+                                <li>Launch Completion Percentage: {{
+                                        pos1[0].launchCompPer }}</li>
+                                <li>Expected Goals Against: {{
+                                        pos1[0].goalsAgainstExpected }}</li>
+                                <li>Expected Goals Against Percentage: {{
+                                        pos1[0].goalsAgainstExpectedPer }}</li>
+                                <li>Crosses Stopped Percentage: {{
+                                        pos1[0].crossesStoppedPer }}</li>
+                                <li>Sweeps: {{ pos1[0].sweeps }}</li>
+                                <li>Penalties Saved Percentage: {{
+                                        pos1[0].penaltiesSavedPer }}</li>
+                                <li>Errors: {{ pos1[0].errors }}</li>
+                                {% elif players[0].mainPos == 2 %}
+                                <li>On Goals Against: {{ pos1[0].onGoalsAgainst
+                                        }}</li>
+                                <li>Tackles: {{ pos1[0].tackles }}</li>
+                                <li>Tackles Won: {{ pos1[0].tacklesWon }}</li>
+                                <li>Dribbles Stopped Percentage: {{
+                                        pos1[0].dribblesStoppedPer }}</li>
+                                <li>Blocks: {{ pos1[0].blocks }}</li>
+                                <li>Interceptions: {{ pos1[0].interceptions
+                                        }}</li>
+                                <li>Clearances: {{ pos1[0].clearances }}</li>
+                                <li>Errors: {{ pos1[0].errors }}</li>
+                                <li>Carries: {{ pos1[0].carries }}</li>
+                                <li>Aerial Duels Won Percentage: {{
+                                        pos1[0].aerialDuelsWon }}</li>
+                                {% elif players[0].mainPos == 3%}
                                 <li>xG: {{ pos1[0].xG }}</li>
                                 <li>xA: {{ pos1[0].xA }}</li>
                                 <li>Progressive Carries: {{ pos1[0].proCarries
@@ -231,7 +265,41 @@ The Two Players Selected
                                                 %}class="text-success" {% endif
                                                 %}}>{{ players[1].red
                                                 }}</span></li>
-                                {% if players[1].mainPos == 3%}
+                                {% if players[0].mainPos == 1 %}
+                                <li>Goals Against: {{ pos2[0].goalsAgainst
+                                        }}</li>
+                                <li>Shots on Target Conceded: {{
+                                        pos2[0].shotsOnTargetConceeded }}</li>
+                                <li>Save Percentage: {{ pos2[0].savePer }}</li>
+                                <li>Clean Sheets: {{ pos2[0].cleanSheets }}</li>
+                                <li>Launch Completion Percentage: {{
+                                        pos2[0].launchCompPer }}</li>
+                                <li>Expected Goals Against: {{
+                                        pos2[0].goalsAgainstExpected }}</li>
+                                <li>Expected Goals Against Percentage: {{
+                                        pos2[0].goalsAgainstExpectedPer }}</li>
+                                <li>Crosses Stopped Percentage: {{
+                                        pos2[0].crossesStoppedPer }}</li>
+                                <li>Sweeps: {{ pos2[0].sweeps }}</li>
+                                <li>Penalties Saved Percentage: {{
+                                        pos2[0].penaltiesSavedPer }}</li>
+                                <li>Errors: {{ pos2[0].errors }}</li>
+                                {% elif players[0].mainPos == 2 %}
+                                <li>On Goals Against: {{ pos2[0].onGoalsAgainst
+                                        }}</li>
+                                <li>Tackles: {{ pos2[0].tackles }}</li>
+                                <li>Tackles Won: {{ pos2[0].tacklesWon }}</li>
+                                <li>Dribbles Stopped Percentage: {{
+                                        pos2[0].dribblesStoppedPer }}</li>
+                                <li>Blocks: {{ pos2[0].blocks }}</li>
+                                <li>Interceptions: {{ pos2[0].interceptions
+                                        }}</li>
+                                <li>Clearances: {{ pos2[0].clearances }}</li>
+                                <li>Errors: {{ pos2[0].errors }}</li>
+                                <li>Carries: {{ pos2[0].carries }}</li>
+                                <li>Aerial Duels Won Percentage: {{
+                                        pos2[0].aerialDuelsWon }}</li>
+                                {% elif players[1].mainPos == 3%}
                                 <li>xG: {{ pos2[0].xG }}</li>
                                 <li>xA: {{ pos2[0].xA }}</li>
                                 <li>Progressive Carries: {{ pos2[0].proCarries
