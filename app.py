@@ -38,7 +38,6 @@ def fetchGk(teamId, shirtId):
     """
     cursor.execute(query, (teamId, shirtId))
     stats = cursor.fetchall()
-    print(stats)
     return stats
 
 def fetchDf(teamId, shirtId):
@@ -59,9 +58,7 @@ def fetchDf(teamId, shirtId):
     """
     cursor.execute(query, (teamId, shirtId))
     stats = cursor.fetchall()
-    print(stats)
     return stats
-
 
 def fetchMf(teamId, shirtId): 
     query = """
@@ -89,8 +86,6 @@ def fetchMf(teamId, shirtId):
         """ 
     cursor.execute(query, (teamId,shirtId))
     stats = cursor.fetchall()
-    print(stats)
-
     return stats
 
 def fetchFw(teamId, shirtId): 
@@ -120,12 +115,11 @@ def fetchFw(teamId, shirtId):
 
     cursor.execute(query, (teamId,shirtId))
     stats = cursor.fetchall()
-    print(stats)
-
     return stats
 
 @app.route('/compare')
 def compare():
+    positionStats = []
     pos1 = []
     pos2 = []
     def safe_int(val, default=0):
