@@ -119,7 +119,6 @@ def fetchFw(teamId, shirtId):
 
 @app.route('/compare')
 def compare():
-    positionStats = []
     pos1 = []
     pos2 = []
     def safe_int(val, default=0):
