@@ -85,12 +85,12 @@ body {
 .carousel-caption {
     text-shadow: 4px 4px 8px rgb(0, 0, 0);
     margin-bottom: 4vh;
-
 }
 
 .carousel-caption > h5 {
     font-weight: bold;
     font-size: max(4vw, 40px);
+    margin-bottom: 1vh;
 }
 
 .carousel-caption > p {
